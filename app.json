@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "hermes",
     "name": "splitwise",
     "slug": "splitwise",
     "version": "1.0.0",
@@ -17,6 +18,7 @@
         "backgroundColor": "#ffffff"
       }
     },
+
     "web": {
       "bundler": "metro",
       "output": "static",
