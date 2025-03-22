@@ -13,6 +13,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Text, View } from "react-native";
 import LoginLayout from "./login/_layout";
+import useAuthStore from "./login/store/AuthStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -21,7 +22,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [loaded, setLoaded] = useState(true);
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const { user } = useAuthStore();
 
   useEffect(() => {
     if (loaded) {
@@ -30,10 +31,10 @@ export default function RootLayout() {
   }, [loaded]);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!user) {
       router.replace("/login");
     }
-  }, [isLoggedIn]);
+  }, [user]);
 
   if (!loaded) {
     return null;

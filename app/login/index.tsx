@@ -5,14 +5,22 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
 import { LoginModel } from "./models/loginModel";
+import useAuthStore from "./store/AuthStore";
 
 export default function Login() {
+  const { login, loading, error } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+  const [afterSave, setAfterSave] = useState(false);
 
   const handleLogin = (values: LoginModel) => {
-    console.log("Email:", values.email);
-    console.log(values.password);
+    setAfterSave(true);
+    console.log("Here");
+    login(values.email, values.password).then(() => {
+      //router.replace("/");
+      setAfterSave(false);
+    });
   };
 
   const handleGoogleLogin = () => {
@@ -32,6 +40,7 @@ export default function Login() {
         values,
         errors,
         touched,
+        submitCount,
       }) => (
         <View style={styles.loginContainer}>
           <View style={styles.logoContainer}>
@@ -48,7 +57,7 @@ export default function Login() {
             onChangeText={handleChange("email")}
             onBlur={handleBlur("email")}
           />
-          {touched.email && errors.email && (
+          {(touched.email || submitCount > 0) && errors.email && (
             <Text style={styles.error}>{errors.email}</Text>
           )}
 
@@ -62,7 +71,7 @@ export default function Login() {
             value={values.password}
           />
 
-          {errors.password && (
+          {(touched.password || submitCount > 0) && errors.password && (
             <Text style={styles.error}>{errors.password}</Text>
           )}
           <Button
@@ -130,9 +139,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 40,
-  },
-  passwordInput: {
-    visibility: "none",
   },
   loginButtonStyle: {
     marginTop: 20,
