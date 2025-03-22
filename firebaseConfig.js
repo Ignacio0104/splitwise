@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app"; // Inicializa la aplicación de Firebase
 import { getAuth } from "firebase/auth"; // Otros servicios de Firebase
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPpAzodF4oHqLNtbjUd7ECglOwWMyBVmI",
@@ -12,7 +13,8 @@ const firebaseConfig = {
 };
 
 // Inicializa Firebase para Expo
-initializeApp(firebaseConfig); // Inicializa Firebase utilizando expo-firebase-core
+const app = initializeApp(firebaseConfig); // Inicializa Firebase utilizando expo-firebase-core
 
 // Ahora puedes usar los servicios de Firebase, como Authentication
-export const auth = getAuth(); // Firebase Auth
+export const auth = getAuth(app); // Firebase Auth
+export const firestore = getFirestore(app);

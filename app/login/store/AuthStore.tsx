@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { auth } from "../../../firebaseConfig";
 
-const useAuthStore = create<{
+const userAuthStore = create<{
   user: UserStore | null;
   loading: boolean;
   error: string | null;
@@ -41,4 +41,4 @@ const useAuthStore = create<{
   },
 }));
 
-export default useAuthStore;
+export default userAuthStore;

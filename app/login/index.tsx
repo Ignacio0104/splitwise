@@ -5,10 +5,12 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
 import { LoginModel } from "./models/loginModel";
-import useAuthStore from "./store/AuthStore";
+import userAuthStore from "./store/AuthStore";
+import userDataStore from "../(tabs)/userStore/UserStore";
 
 export default function Login() {
-  const { login, loading, error } = useAuthStore();
+  const { login, loading, error } = userAuthStore();
+  const { fetchData, saveData } = userDataStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -17,10 +19,13 @@ export default function Login() {
   const handleLogin = (values: LoginModel) => {
     setAfterSave(true);
     console.log("Here");
-    login(values.email, values.password).then(() => {
-      //router.replace("/");
-      setAfterSave(false);
+    saveData(values.email).then(() => {
+      console.log("Ready");
     });
+    // login(values.email, values.password).then(() => {
+    //   //router.replace("/");
+    //   setAfterSave(false);
+    // });
   };
 
   const handleGoogleLogin = () => {
