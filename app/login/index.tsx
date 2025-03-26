@@ -1,27 +1,36 @@
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
 import { LoginModel } from "./models/loginModel";
+import userAuthStore from "./store/AuthStore";
+import userDataStore from "../(tabs)/userStore/UserStore";
 
 export default function Login() {
+  const { login, loading, error, user } = userAuthStore();
+  const { fetchData, saveData } = userDataStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+  const [afterSave, setAfterSave] = useState(false);
 
   const handleLogin = (values: LoginModel) => {
-    console.log("Email:", values.email);
-    console.log(values.password);
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("Google");
+    setAfterSave(true);
+    console.log(user);
+    login(values.email, values.password).then(() => {
+      console.log("Finished");
+      if (user) {
+        router.replace("/");
+        setAfterSave(false);
+      }
+    });
   };
 
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "nacho@test.com", password: "123456" }}
       validationSchema={loginSchema}
       onSubmit={(values) => handleLogin(values)}
     >
@@ -32,6 +41,7 @@ export default function Login() {
         values,
         errors,
         touched,
+        submitCount,
       }) => (
         <View style={styles.loginContainer}>
           <View style={styles.logoContainer}>
@@ -48,7 +58,7 @@ export default function Login() {
             onChangeText={handleChange("email")}
             onBlur={handleBlur("email")}
           />
-          {touched.email && errors.email && (
+          {(touched.email || submitCount > 0) && errors.email && (
             <Text style={styles.error}>{errors.email}</Text>
           )}
 
@@ -62,7 +72,7 @@ export default function Login() {
             value={values.password}
           />
 
-          {errors.password && (
+          {(touched.password || submitCount > 0) && errors.password && (
             <Text style={styles.error}>{errors.password}</Text>
           )}
           <Button
@@ -72,16 +82,6 @@ export default function Login() {
           >
             Login
           </Button>
-          <TouchableOpacity
-            style={styles.googleLogin}
-            onPress={() => handleGoogleLogin()}
-          >
-            <Text>Login with Google</Text>
-            <Image
-              source={require("../../assets/images/google_icon.png")}
-              style={styles.googleIcon}
-            />
-          </TouchableOpacity>
         </View>
       )}
     </Formik>
@@ -130,9 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 40,
-  },
-  passwordInput: {
-    visibility: "none",
   },
   loginButtonStyle: {
     marginTop: 20,
