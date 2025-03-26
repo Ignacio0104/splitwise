@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { UserStore } from "../models/loginModel";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { auth } from "../../../firebaseConfig";
 
@@ -9,22 +14,44 @@ const userAuthStore = create<{
   loading: boolean;
   error: string | null;
   login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  getAuthState: () => Promise<void>;
 }>((set) => ({
   user: null,
-  loading: false,
+  loading: true,
   error: null,
+
+  getAuthState: async () => {
+    set({ loading: true });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        set({
+          user: {
+            email: auth.currentUser?.email || "",
+            id: auth.currentUser?.uid || "",
+          },
+          loading: false,
+        });
+      }
+    });
+  },
 
   login: async (email: string, password: string) => {
     try {
       set({ loading: true });
-      console.log(auth);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-      console.log(userCredential);
+      set({
+        user: {
+          email: userCredential.user.email || "",
+          id: userCredential.user.uid,
+        },
+        loading: false,
+      });
     } catch (error) {
       set({ error: "Error", loading: false });
     }
@@ -32,8 +59,8 @@ const userAuthStore = create<{
 
   logout: async () => {
     try {
-      //   const auth = getAuth();
-      //   await signOut(auth);
+      const auth = getAuth();
+      await signOut(auth);
       set({ user: null });
     } catch (error) {
       set({ error: "" });

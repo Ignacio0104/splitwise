@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
@@ -9,7 +9,7 @@ import userAuthStore from "./store/AuthStore";
 import userDataStore from "../(tabs)/userStore/UserStore";
 
 export default function Login() {
-  const { login, loading, error } = userAuthStore();
+  const { login, loading, error, user } = userAuthStore();
   const { fetchData, saveData } = userDataStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,23 +18,19 @@ export default function Login() {
 
   const handleLogin = (values: LoginModel) => {
     setAfterSave(true);
-    console.log("Here");
-    saveData(values.email).then(() => {
-      console.log("Ready");
+    console.log(user);
+    login(values.email, values.password).then(() => {
+      console.log("Finished");
+      if (user) {
+        router.replace("/");
+        setAfterSave(false);
+      }
     });
-    // login(values.email, values.password).then(() => {
-    //   //router.replace("/");
-    //   setAfterSave(false);
-    // });
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("Google");
   };
 
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "nacho@test.com", password: "123456" }}
       validationSchema={loginSchema}
       onSubmit={(values) => handleLogin(values)}
     >
@@ -86,16 +82,6 @@ export default function Login() {
           >
             Login
           </Button>
-          <TouchableOpacity
-            style={styles.googleLogin}
-            onPress={() => handleGoogleLogin()}
-          >
-            <Text>Login with Google</Text>
-            <Image
-              source={require("../../assets/images/google_icon.png")}
-              style={styles.googleIcon}
-            />
-          </TouchableOpacity>
         </View>
       )}
     </Formik>

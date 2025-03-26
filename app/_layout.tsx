@@ -22,17 +22,24 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const router = useRouter();
   const [loaded, setLoaded] = useState(true);
-  const { user } = useAuthStore();
+  const { user, loading, getAuthState } = useAuthStore();
 
   useEffect(() => {
-    if (loaded) {
+    getAuthState();
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loading]);
 
   useEffect(() => {
+    console.log(user);
     if (!user) {
       router.replace("/login");
+    } else {
+      router.replace("/");
     }
   }, [user]);
 

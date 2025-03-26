@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app"; // Inicializa la aplicación de Firebase
-import { getAuth } from "firebase/auth"; // Otros servicios de Firebase
+import { initializeAuth, getReactNativePersistence } from "firebase/auth"; // Otros servicios de Firebase
 import { getFirestore } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBPpAzodF4oHqLNtbjUd7ECglOwWMyBVmI",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 // Inicializa Firebase para Expo
 const app = initializeApp(firebaseConfig); // Inicializa Firebase utilizando expo-firebase-core
 
-// Ahora puedes usar los servicios de Firebase, como Authentication
-export const auth = getAuth(app); // Firebase Auth
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 export const firestore = getFirestore(app);
