@@ -6,11 +6,11 @@ import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
 import { LoginModel } from "./models/loginModel";
 import userAuthStore from "./store/AuthStore";
-import userDataStore from "../(tabs)/userStore/UserStore";
+import userDataStore from "../mainStores/userStore/UserStore";
 
 export default function Login() {
   const { login, loading, error, user } = userAuthStore();
-  const { fetchData, saveData } = userDataStore();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -18,9 +18,7 @@ export default function Login() {
 
   const handleLogin = (values: LoginModel) => {
     setAfterSave(true);
-    console.log(user);
     login(values.email, values.password).then(() => {
-      console.log("Finished");
       if (user) {
         router.replace("/");
         setAfterSave(false);
