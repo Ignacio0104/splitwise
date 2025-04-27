@@ -10,7 +10,7 @@ const userDataStore = create<{
   saveData: (email: string) => Promise<void>;
 }>((set) => ({
   data: [],
-  loading: false,
+  loading: true,
   error: null,
 
   fetchData: async (id: string) => {
@@ -22,7 +22,6 @@ const userDataStore = create<{
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        // Si el documento existe, actualiza el estado con los datos
         set({ data: [docSnap.data()], loading: false, error: null });
       } else {
         set({ error: "No such document!", loading: false });

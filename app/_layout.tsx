@@ -35,7 +35,6 @@ export default function RootLayout() {
   }, [loading]);
 
   useEffect(() => {
-    console.log(user);
     if (!user) {
       router.replace("/login");
     } else {

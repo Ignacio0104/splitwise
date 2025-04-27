@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { auth } from "../../../firebaseConfig";
@@ -34,6 +35,7 @@ const userAuthStore = create<{
         });
       }
     });
+    set({ loading: false });
   },
 
   login: async (email: string, password: string) => {
@@ -66,6 +68,15 @@ const userAuthStore = create<{
       set({ error: "" });
     }
   },
+
+  // updateProfile: async ()=>{
+  //   try {
+  //     await updateProfile()
+  //     set({ user: null });
+  //   } catch (error) {
+  //     set({ error: "" });
+  //   }
+  // }
 }));
 
 export default userAuthStore;
