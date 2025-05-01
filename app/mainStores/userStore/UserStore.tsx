@@ -1,15 +1,16 @@
 import { create } from "zustand";
 import { firestore } from "../../../firebaseConfig";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { UserData } from "./userStoreModels";
 
 const userDataStore = create<{
-  data: any[];
+  userData: UserData | null;
   loading: boolean;
   error: string | null;
   fetchData: (id: string) => Promise<void>;
   saveData: (email: string) => Promise<void>;
 }>((set) => ({
-  data: [],
+  userData: null,
   loading: true,
   error: null,
 
@@ -22,7 +23,14 @@ const userDataStore = create<{
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        set({ data: [docSnap.data()], loading: false, error: null });
+        //const documentData = docSnap.data() as UserData;
+        const documentData = mockFetchData();
+        //TODO: Hacer fetch de todos los reports en base al ID
+        set({
+          userData: { ...documentData, uid: id },
+          loading: false,
+          error: null,
+        });
       } else {
         set({ error: "No such document!", loading: false });
       }
@@ -46,3 +54,16 @@ const userDataStore = create<{
 }));
 
 export default userDataStore;
+
+export function mockFetchData(): UserData {
+  return {
+    uid: "234252552",
+    friendsIds: [],
+    lastname: "Smirlian",
+    name: "Nacho",
+    photoUrl:
+      "https://postercity.com.ar/wp-content/uploads/2022/07/Darth-Vader-Illustration-Profile-60x80-1.jpg",
+    reportsIds: [],
+    reports: [],
+  };
+}

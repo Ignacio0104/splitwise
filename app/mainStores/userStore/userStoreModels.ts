@@ -5,8 +5,9 @@ export interface UserData {
   name: string;
   lastname: string;
   photoUrl?: string;
-  reportsId: string[];
-  friends: string[];
+  reportsIds: string[];
+  reports: Report[];
+  friendsIds: string[];
 }
 
 export interface Report {
