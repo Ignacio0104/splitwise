@@ -13,6 +13,8 @@ export interface UserData {
 export interface Report {
   id: string;
   users: ReportUserData[];
+  total: number;
+  percentages: UserPercentage[];
 }
 
 export interface ReportUserData {
@@ -22,6 +24,7 @@ export interface ReportUserData {
 }
 
 export interface Contributions {
+  userId: string;
   name: string;
   description?: string;
   amount: number;

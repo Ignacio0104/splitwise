@@ -9,6 +9,7 @@ const userDataStore = create<{
   error: string | null;
   fetchData: (id: string) => Promise<void>;
   saveData: (email: string) => Promise<void>;
+  fetchReports: (reportsIds: string[]) => Promise<Report[]>;
 }>((set) => ({
   userData: null,
   loading: true,
@@ -23,9 +24,16 @@ const userDataStore = create<{
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        //const documentData = docSnap.data() as UserData;
-        const documentData = mockFetchData();
+        //const documentData = mockFetchData();
+        const documentData = docSnap.data() as UserData;
+
         //TODO: Hacer fetch de todos los reports en base al ID
+        const reportsDB: Report[] = await userDataStore
+          .getState()
+          .fetchReports(documentData.reportsIds);
+
+        console.log(reportsDB);
+
         set({
           userData: { ...documentData, uid: id },
           loading: false,
@@ -51,6 +59,24 @@ const userDataStore = create<{
       set({ error: "Error", loading: false });
     }
   },
+
+  fetchReports: async (reportsIds: string[]) => {
+    try {
+      const reportsDB: Report[] = await Promise.all(
+        (reportsIds || []).map(async (reportId) => {
+          const docRef = doc(firestore, "reports", reportId); // "users" es la colección y id es el documento
+          const reportSnap = await getDoc(docRef);
+          const reportData = reportSnap.data();
+          return reportData as Report;
+        })
+      );
+      set({ loading: false, error: null });
+      return reportsDB;
+    } catch (error) {
+      set({ error: "Error", loading: false });
+    }
+    return [];
+  },
 }));
 
 export default userDataStore;
@@ -63,7 +89,7 @@ export function mockFetchData(): UserData {
     name: "Nacho",
     photoUrl:
       "https://postercity.com.ar/wp-content/uploads/2022/07/Darth-Vader-Illustration-Profile-60x80-1.jpg",
-    reportsIds: [],
+    reportsIds: ["aNYwxcb08jECDlkxnUmu"],
     reports: [],
   };
 }
