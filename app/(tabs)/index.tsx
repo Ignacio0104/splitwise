@@ -5,8 +5,8 @@ import userDataStore from "../mainStores/userStore/UserStore";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import { useEffect } from "react";
 import userAuthStore from "../login/store/AuthStore";
-import UserHeaderInformation from "../UIComponents/headerInformation/userHeaderInformation";
-import ReportsMain from "../UIComponents/reports/reportsMain";
+import ReportsMain from "../../ComponentsUI/reports/reportsMain";
+import UserHeaderInformation from "@/ComponentsUI/headerInformation/userHeaderInformation";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
