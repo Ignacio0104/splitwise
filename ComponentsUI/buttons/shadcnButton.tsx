@@ -28,15 +28,18 @@ export function useStyles(fontSize?: number) {
       alignItems: "center",
       width: "100%",
     },
+    touchableStye: {
+      width: "70%",
+      margin: "auto",
+    },
     buttonStyle: {
       backgroundColor: Colors.whiteShadcn,
       marginTop: aspectRatio * 10,
       color: "black",
       padding: 20,
-      fontSize: fontSize ?? aspectRatio * 16,
+      fontSize: fontSize ?? aspectRatio * 14,
       fontFamily: "Inter_700Bold",
       borderRadius: 20,
-      width: "100%",
     },
   });
 }
@@ -45,7 +48,7 @@ export default function ShadcnButton({ children, onPress }: ShadcnButtonProps) {
   const styles = useStyles();
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity style={styles.touchableStye} onPress={onPress}>
         <Text style={styles.buttonStyle}>{children}</Text>
       </TouchableOpacity>
     </View>
