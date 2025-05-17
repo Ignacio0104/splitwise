@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { firestore } from "../../../firebaseConfig";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { UserData } from "./userStoreModels";
+import { mockUserData } from "./userMocks/userMockResponses";
 
 const userDataStore = create<{
   userData: UserData | null;
@@ -19,29 +20,33 @@ const userDataStore = create<{
     try {
       set({ loading: true });
 
-      // Obtener el documento de Firestore por ID
-      const docRef = doc(firestore, "users", id); // "users" es la colección y id es el documento
-      const docSnap = await getDoc(docRef);
+      set({
+        userData: { ...mockUserData, uid: id },
+        loading: false,
+        error: null,
+      });
 
-      if (docSnap.exists()) {
-        //const documentData = mockFetchData();
-        const documentData = docSnap.data() as UserData;
+      // // Obtener el documento de Firestore por ID
+      // const docRef = doc(firestore, "users", id); // "users" es la colección y id es el documento
+      // const docSnap = await getDoc(docRef);
 
-        //TODO: Hacer fetch de todos los reports en base al ID
-        const reportsDB: Report[] = await userDataStore
-          .getState()
-          .fetchReports(documentData.reportsIds);
+      // if (docSnap.exists()) {
+      //   //const documentData = mockFetchData();
+      //   const documentData = docSnap.data() as UserData;
 
-        console.log(reportsDB);
+      //   //TODO: Hacer fetch de todos los reports en base al ID
+      //   const reportsDB: Report[] = await userDataStore
+      //     .getState()
+      //     .fetchReports(documentData.reportsIds);
 
-        set({
-          userData: { ...documentData, uid: id },
-          loading: false,
-          error: null,
-        });
-      } else {
-        set({ error: "No such document!", loading: false });
-      }
+      //   set({
+      //     userData: { ...documentData, uid: id },
+      //     loading: false,
+      //     error: null,
+      //   });
+      // } else {
+      //   set({ error: "No such document!", loading: false });
+      // }
     } catch (error) {
       set({ error: "error", loading: false });
     }
@@ -62,16 +67,16 @@ const userDataStore = create<{
 
   fetchReports: async (reportsIds: string[]) => {
     try {
-      const reportsDB: Report[] = await Promise.all(
-        (reportsIds || []).map(async (reportId) => {
-          const docRef = doc(firestore, "reports", reportId); // "users" es la colección y id es el documento
-          const reportSnap = await getDoc(docRef);
-          const reportData = reportSnap.data();
-          return reportData as Report;
-        })
-      );
+      // const reportsDB: Report[] = await Promise.all(
+      //   (reportsIds || []).map(async (reportId) => {
+      //     const docRef = doc(firestore, "reports", reportId); // "users" es la colección y id es el documento
+      //     const reportSnap = await getDoc(docRef);
+      //     const reportData = reportSnap.data();
+      //     return reportData as Report;
+      //   })
+      // );
       set({ loading: false, error: null });
-      return reportsDB;
+      return [];
     } catch (error) {
       set({ error: "Error", loading: false });
     }

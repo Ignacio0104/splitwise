@@ -11,7 +11,7 @@ export default function ReportsEmpty() {
       <View style={styles.emptyImageContainer}>
         <Image
           style={styles.emptyImage}
-          source={require("../../../assets/images/empty-reports.png")}
+          source={require("../../assets/images/empty-reports.png")}
         />
       </View>
       <View style={styles.buttonContainer}>

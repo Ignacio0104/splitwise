@@ -3,13 +3,16 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { useFonts } from "expo-font";
 import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
-
+import {
+  useFonts,
+  Inter_400Regular,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Text, View } from "react-native";
 import LoginLayout from "./login/_layout";
@@ -23,6 +26,10 @@ export default function RootLayout() {
   const router = useRouter();
   const [loaded, setLoaded] = useState(true);
   const { user, loading, getAuthState } = useAuthStore();
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_700Bold,
+  });
 
   useEffect(() => {
     getAuthState();
@@ -35,21 +42,25 @@ export default function RootLayout() {
   }, [loading]);
 
   useEffect(() => {
-    if (!user) {
-      router.replace("/login");
-    } else {
-      router.replace("/");
+    if (!loading && fontsLoaded) {
+      if (!user) {
+        router.replace("/login");
+      } else {
+        router.replace("/login");
+      }
     }
-  }, [user]);
+  }, [user, loading, fontsLoaded]);
 
-  if (!loaded) {
+  if (!loaded || !fontsLoaded) {
     return null;
   }
+
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
