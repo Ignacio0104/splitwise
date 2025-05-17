@@ -14,7 +14,8 @@ import {
 interface ShadcnButtonProps {
   children: string;
   onPress: () => void;
-  style?: ViewStyle | TextStyle; // Permite pasar estilos tanto para el contenedor (View) como para el texto
+  touchableStyle?: ViewStyle;
+  buttonStyle?: TextStyle;
 }
 
 export function useStyles(fontSize?: number) {
@@ -24,32 +25,43 @@ export function useStyles(fontSize?: number) {
   return StyleSheet.create({
     buttonContainer: {
       display: "flex",
+      flexDirection: "row",
+      width: "100%",
       justifyContent: "center",
       alignItems: "center",
-      width: "100%",
     },
     touchableStye: {
-      width: "70%",
-      margin: "auto",
+      width: "auto",
     },
     buttonStyle: {
       backgroundColor: Colors.whiteShadcn,
       marginTop: aspectRatio * 10,
       color: "black",
-      padding: 20,
+      paddingVertical: 20,
+      paddingHorizontal: 40,
+      letterSpacing: 1,
       fontSize: fontSize ?? aspectRatio * 14,
       fontFamily: "Inter_700Bold",
       borderRadius: 20,
+      textAlign: "center",
     },
   });
 }
 
-export default function ShadcnButton({ children, onPress }: ShadcnButtonProps) {
+export default function ShadcnButton({
+  children,
+  onPress,
+  buttonStyle,
+  touchableStyle,
+}: ShadcnButtonProps) {
   const styles = useStyles();
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.touchableStye} onPress={onPress}>
-        <Text style={styles.buttonStyle}>{children}</Text>
+      <TouchableOpacity
+        style={touchableStyle ?? styles.touchableStye}
+        onPress={onPress}
+      >
+        <Text style={buttonStyle ?? styles.buttonStyle}>{children}</Text>
       </TouchableOpacity>
     </View>
   );

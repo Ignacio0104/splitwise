@@ -67,16 +67,16 @@ const userDataStore = create<{
 
   fetchReports: async (reportsIds: string[]) => {
     try {
-      const reportsDB: Report[] = await Promise.all(
-        (reportsIds || []).map(async (reportId) => {
-          const docRef = doc(firestore, "reports", reportId); // "users" es la colección y id es el documento
-          const reportSnap = await getDoc(docRef);
-          const reportData = reportSnap.data();
-          return reportData as Report;
-        })
-      );
+      // const reportsDB: Report[] = await Promise.all(
+      //   (reportsIds || []).map(async (reportId) => {
+      //     const docRef = doc(firestore, "reports", reportId); // "users" es la colección y id es el documento
+      //     const reportSnap = await getDoc(docRef);
+      //     const reportData = reportSnap.data();
+      //     return reportData as Report;
+      //   })
+      // );
       set({ loading: false, error: null });
-      return reportsDB;
+      return [];
     } catch (error) {
       set({ error: "Error", loading: false });
     }

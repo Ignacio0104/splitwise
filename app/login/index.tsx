@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { useEffect, useId, useState } from "react";
 import {
@@ -16,6 +16,8 @@ import { LoginModel } from "./models/loginModel";
 import userAuthStore from "./store/AuthStore";
 import userDataStore from "../mainStores/userStore/UserStore";
 import ShadcnButton from "../../ComponentsUI/buttons/shadcnButton";
+import { Colors } from "@/constants/Colors";
+import { BASE_WIDTH } from "@/constants/Values";
 
 export default function Login() {
   const { login, user } = userAuthStore();
@@ -57,10 +59,19 @@ export default function Login() {
                 style={styles.logoImage}
               />
             </View>
-            <Text>Email:</Text>
             <TextInput
               style={styles.loginInput}
-              placeholder="Email"
+              label={
+                <Text style={{ fontSize: 25, color: "white" }}>Email</Text>
+              }
+              mode="outlined"
+              textColor="white"
+              theme={{
+                colors: {
+                  outline: "white",
+                  primary: "white",
+                },
+              }}
               value={values.email}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
@@ -68,12 +79,20 @@ export default function Login() {
             {(touched.email || submitCount > 0) && errors.email && (
               <Text style={styles.error}>{errors.email}</Text>
             )}
-
-            <Text>Password:</Text>
             <TextInput
               style={styles.loginInput}
-              placeholder="Password"
+              textColor="white"
+              label={
+                <Text style={{ fontSize: 25, color: "white" }}>Password</Text>
+              }
               secureTextEntry
+              theme={{
+                colors: {
+                  outline: "white",
+                  primary: "white",
+                },
+              }}
+              mode="outlined"
               onChangeText={handleChange("password")}
               onBlur={handleBlur("password")}
               value={values.password}
@@ -82,7 +101,18 @@ export default function Login() {
             {(touched.password || submitCount > 0) && errors.password && (
               <Text style={styles.error}>{errors.password}</Text>
             )}
-            <ShadcnButton onPress={() => handleSubmit()}>Login</ShadcnButton>
+            <View style={styles.forgotPasswordContainer}>
+              <Link style={styles.linkStyle} href={"/"}>
+                Forgot your password?
+              </Link>
+            </View>
+            <ShadcnButton
+              buttonStyle={styles.loginButton}
+              touchableStyle={styles.touchableLogin}
+              onPress={() => handleSubmit()}
+            >
+              Login
+            </ShadcnButton>
           </View>
         )}
       </Formik>
@@ -93,7 +123,7 @@ export default function Login() {
 export function useStyles() {
   const { width } = useWindowDimensions();
 
-  const aspectRatio = (1 / width) * 100;
+  const aspectRatio = width / BASE_WIDTH;
 
   return StyleSheet.create({
     loginContainer: {
@@ -117,13 +147,50 @@ export function useStyles() {
     loginInput: {
       color: "black",
       width: "90%",
+      backgroundColor: "black",
+      borderColor: "white",
+      marginTop: 20,
+      fontSize: 20,
     },
     error: {
       color: "red",
     },
-    loginButtonStyle: {
-      marginTop: aspectRatio * 100,
+    touchableLogin: {
       width: "90%",
+    },
+    loginButton: {
+      backgroundColor: Colors.whiteShadcn,
+      marginTop: aspectRatio * 20,
+      color: "black",
+      width: "100%",
+      height: aspectRatio * 40,
+      letterSpacing: 1,
+      fontSize: aspectRatio * 14,
+      fontFamily: "Inter_700Bold",
+      borderRadius: 10,
+      textAlign: "center",
+      textAlignVertical: "center",
+    },
+    forgotPasswordContainer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingRight: 20,
+      width: "100%",
+    },
+    linkStyle: {
+      paddingTop: aspectRatio * 10,
+      color: "darkgreen",
     },
   });
 }
+
+export const InputTheme = {
+  colors: {
+    primary: "red",
+    text: "green",
+    placeholder: "gray",
+    background: "black",
+    outlineColor: "white",
+  },
+};
