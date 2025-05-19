@@ -26,9 +26,9 @@ export function useStyles(fontSize?: number) {
     buttonContainer: {
       display: "flex",
       flexDirection: "row",
-      width: "100%",
       justifyContent: "center",
       alignItems: "center",
+      margin: "auto",
     },
     touchableStye: {
       width: "auto",
