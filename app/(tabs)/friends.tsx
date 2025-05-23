@@ -2,12 +2,12 @@ import { StyleSheet, View, Text, SafeAreaView } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function ExploreScreen() {
+export default function FriendsScreen() {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={{ paddingTop: insets.top }}>
       <View>
-        <Text style={styles.tabTwo}>Explore</Text>
+        <Text style={styles.tabTwo}>Friends</Text>
       </View>
     </SafeAreaView>
   );
