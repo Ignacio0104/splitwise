@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { auth } from "../../../firebaseConfig";
+import { mockUserCrendentials } from "./authMocks/mockResponses";
 
 const userAuthStore = create<{
   user: UserStore | null;
@@ -41,11 +42,14 @@ const userAuthStore = create<{
   login: async (email: string, password: string) => {
     try {
       set({ loading: true });
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      //TODO: Uncomment to call firebase
+      // const userCredential = await signInWithEmailAndPassword(
+      //   auth,
+      //   email,
+      //   password
+      // );
+
+      const userCredential = mockUserCrendentials;
 
       set({
         user: {

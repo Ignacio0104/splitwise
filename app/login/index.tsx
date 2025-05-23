@@ -1,20 +1,33 @@
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useId, useState } from "react";
+import {
+  Image,
+  Keyboard,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
 import { LoginModel } from "./models/loginModel";
 import userAuthStore from "./store/AuthStore";
 import userDataStore from "../mainStores/userStore/UserStore";
+import ShadcnButton from "../../ComponentsUI/buttons/shadcnButton";
+import { Colors } from "@/constants/Colors";
+import { BASE_WIDTH } from "@/constants/Values";
 
 export default function Login() {
-  const { login, loading, error, user } = userAuthStore();
+  const { login, user } = userAuthStore();
+  const styles = useStyles();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
   const [afterSave, setAfterSave] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleLogin = (values: LoginModel) => {
     setAfterSave(true);
@@ -27,110 +40,236 @@ export default function Login() {
   };
 
   return (
-    <Formik
-      initialValues={{ email: "nacho@test.com", password: "123456" }}
-      validationSchema={loginSchema}
-      onSubmit={(values) => handleLogin(values)}
-    >
-      {({
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        values,
-        errors,
-        touched,
-        submitCount,
-      }) => (
-        <View style={styles.loginContainer}>
-          <View style={styles.logoContainer}>
-            <Image
-              source={require("../../assets/images/pattern_logo.png")}
-              style={styles.logoImage}
-            />
-          </View>
-          <Text>Email:</Text>
-          <TextInput
-            style={styles.loginInput}
-            placeholder="Email"
-            value={values.email}
-            onChangeText={handleChange("email")}
-            onBlur={handleBlur("email")}
-          />
-          {(touched.email || submitCount > 0) && errors.email && (
-            <Text style={styles.error}>{errors.email}</Text>
-          )}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView>
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={loginSchema}
+          onSubmit={(values) => handleLogin(values)}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            submitCount,
+          }) => (
+            <View style={styles.loginContainer}>
+              <View style={styles.logoContainer}>
+                <Image
+                  source={require("../../assets/images/pattern_logo.png")}
+                  style={styles.logoImage}
+                />
+              </View>
+              <TextInput
+                style={styles.loginInput}
+                label={
+                  <Text style={{ fontSize: 20, color: "white" }}>Email</Text>
+                }
+                mode="outlined"
+                textColor="white"
+                theme={{
+                  colors: {
+                    outline:
+                      (touched.email || submitCount > 0) && errors.email
+                        ? "red"
+                        : "white",
+                    primary: "white",
+                  },
+                }}
+                value={values.email}
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+              />
+              <View style={styles.errorContainer}>
+                <Text
+                  style={
+                    (touched.email || submitCount > 0) && errors.email
+                      ? styles.error
+                      : styles.errorHidden
+                  }
+                >
+                  {errors.email}
+                </Text>
+              </View>
+              <TextInput
+                style={styles.loginInput}
+                textColor="white"
+                label={
+                  <Text style={{ fontSize: 20, color: "white" }}>Password</Text>
+                }
+                secureTextEntry={!passwordVisible}
+                right={
+                  <TextInput.Icon
+                    icon={passwordVisible ? "eye-off" : "eye"}
+                    onPress={() => setPasswordVisible(!passwordVisible)}
+                  />
+                }
+                theme={{
+                  colors: {
+                    outline:
+                      (touched.password || submitCount > 0) && errors.password
+                        ? "red"
+                        : "white",
+                    primary: "white",
+                    error: "red",
+                  },
+                }}
+                mode="outlined"
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={values.password}
+              />
 
-          <Text>Password:</Text>
-          <TextInput
-            style={styles.loginInput}
-            placeholder="Password"
-            secureTextEntry
-            onChangeText={handleChange("password")}
-            onBlur={handleBlur("password")}
-            value={values.password}
-          />
+              <View style={styles.errorContainer}>
+                <Text
+                  style={
+                    (touched.password || submitCount > 0) && errors.password
+                      ? styles.error
+                      : styles.errorHidden
+                  }
+                >
+                  {errors.password}
+                </Text>
+              </View>
+              <View style={styles.forgotPasswordContainer}>
+                <Link style={styles.forgetLinkStyle} href={"/"}>
+                  Olvidaste tu contraseña?
+                </Link>
+              </View>
+              <View>
+                <ShadcnButton
+                  buttonStyle={styles.loginButton}
+                  touchableStyle={styles.touchableLogin}
+                  onPress={() => handleSubmit()}
+                >
+                  Login
+                </ShadcnButton>
 
-          {(touched.password || submitCount > 0) && errors.password && (
-            <Text style={styles.error}>{errors.password}</Text>
+                <View style={styles.dividerContainer}>
+                  <View style={styles.line} />
+                  <Text style={styles.text}>O</Text>
+                  <View style={styles.line} />
+                </View>
+                <ShadcnButton
+                  buttonStyle={styles.loginButton}
+                  touchableStyle={styles.touchableLogin}
+                  onPress={() => handleSubmit()}
+                >
+                  Registrate
+                </ShadcnButton>
+              </View>
+            </View>
           )}
-          <Button
-            mode="contained"
-            style={styles.loginButtonStyle}
-            onPress={() => handleSubmit()}
-          >
-            Login
-          </Button>
-        </View>
-      )}
-    </Formik>
+        </Formik>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
-const styles = StyleSheet.create({
-  loginContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+export function useStyles() {
+  const { width } = useWindowDimensions();
+
+  const aspectRatio = width / BASE_WIDTH;
+
+  return StyleSheet.create({
+    loginContainer: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: "auto",
+    },
+    logoContainer: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "80%",
+      height: "50%",
+    },
+    logoImage: {
+      width: "100%",
+      height: "60%",
+      resizeMode: "contain",
+    },
+    loginInput: {
+      color: "black",
+      width: "90%",
+      backgroundColor: "black",
+      borderColor: "white",
+      fontSize: 20,
+    },
+    error: {
+      color: "red",
+      opacity: 1,
+    },
+    errorHidden: {
+      opacity: 0,
+    },
+    errorContainer: {
+      display: "flex",
+      justifyContent: "flex-end",
+      flexDirection: "row",
+      fontWeight: 600,
+      width: "90%",
+    },
+    touchableLogin: {
+      width: "90%",
+    },
+    loginButton: {
+      backgroundColor: Colors.whiteShadcn,
+      color: "black",
+      width: "100%",
+      height: aspectRatio * 50,
+      letterSpacing: 1,
+      fontSize: aspectRatio * 14,
+      fontFamily: "Inter_700Bold",
+      borderRadius: 10,
+      textAlign: "center",
+      textAlignVertical: "center",
+    },
+    forgotPasswordContainer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "90%",
+      marginBottom: aspectRatio * 20,
+    },
+    forgetLinkStyle: {
+      paddingTop: aspectRatio * 10,
+      color: "darkgreen",
+    },
+    actionButtonsContainer: {
+      display: "flex",
+      gap: 4,
+    },
+    dividerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      width: "90%",
+      alignSelf: "center",
+      marginVertical: 20,
+    },
+    line: {
+      flex: 1,
+      height: 1,
+      backgroundColor: "#666",
+    },
+    text: {
+      color: "#fff",
+      marginHorizontal: 10,
+      fontWeight: "bold",
+    },
+  });
+}
+
+export const InputTheme = {
+  colors: {
+    primary: "red",
+    text: "green",
+    placeholder: "gray",
+    background: "black",
+    outlineColor: "white",
   },
-  logoContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "80%",
-    height: "50%",
-  },
-  logoImage: {
-    width: "100%",
-    height: "80%",
-    resizeMode: "contain",
-  },
-  loginInput: {
-    color: "black",
-    width: "90%",
-  },
-  error: {
-    color: "red",
-  },
-  googleIcon: {
-    width: 20,
-    height: 20,
-    display: "flex",
-    marginLeft: 20,
-  },
-  googleLogin: {
-    backgroundColor: "white",
-    marginTop: 20,
-    borderRadius: 20,
-    width: "90%",
-    color: "black",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 40,
-  },
-  loginButtonStyle: {
-    marginTop: 20,
-    width: "90%",
-  },
-});
+};

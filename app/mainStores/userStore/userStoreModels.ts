@@ -5,13 +5,16 @@ export interface UserData {
   name: string;
   lastname: string;
   photoUrl?: string;
-  reportsId: string[];
-  friends: string[];
+  reportsIds: string[];
+  reports: Report[];
+  friendsIds: string[];
 }
 
 export interface Report {
   id: string;
   users: ReportUserData[];
+  total: number;
+  percentages: UserPercentage[];
 }
 
 export interface ReportUserData {
@@ -21,6 +24,7 @@ export interface ReportUserData {
 }
 
 export interface Contributions {
+  userId: string;
   name: string;
   description?: string;
   amount: number;

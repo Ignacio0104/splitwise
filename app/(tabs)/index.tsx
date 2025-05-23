@@ -5,11 +5,13 @@ import userDataStore from "../mainStores/userStore/UserStore";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import { useEffect } from "react";
 import userAuthStore from "../login/store/AuthStore";
+import ReportsMain from "../../ComponentsUI/reports/reportsMain";
+import UserHeaderInformation from "@/ComponentsUI/headerInformation/userHeaderInformation";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { user } = userAuthStore();
-  const { fetchData, saveData, loading, data } = userDataStore();
+  const { fetchData, saveData, loading } = userDataStore();
 
   useEffect(() => {
     if (user) {
@@ -18,7 +20,7 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    console.log(data);
+    //console.log(data);
   }, [loading]);
 
   return loading ? (
@@ -31,10 +33,10 @@ export default function HomeScreen() {
   ) : (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
       <View>
-        <Text style={styles.title}>Bienvenido!</Text>
+        <UserHeaderInformation />
       </View>
       <View>
-        <Text style={styles.subtitle}>Tus reportes: </Text>
+        <ReportsMain />
       </View>
     </SafeAreaView>
   );
@@ -47,10 +49,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  title: {
-    color: "white",
-    fontSize: 40,
-  },
   subtitle: {
     paddingTop: 10,
     color: "white",
@@ -59,6 +57,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
-    marginLeft: 10,
+    marginLeft: 15,
   },
 });
