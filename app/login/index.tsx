@@ -263,13 +263,3 @@ export function useStyles() {
     },
   });
 }
-
-export const InputTheme = {
-  colors: {
-    primary: "red",
-    text: "green",
-    placeholder: "gray",
-    background: "black",
-    outlineColor: "white",
-  },
-};

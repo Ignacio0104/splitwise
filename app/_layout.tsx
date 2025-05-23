@@ -46,7 +46,7 @@ export default function RootLayout() {
       if (!user) {
         router.replace("/login");
       } else {
-        router.replace("/login");
+        router.replace("/");
       }
     }
   }, [user, loading, fontsLoaded]);
