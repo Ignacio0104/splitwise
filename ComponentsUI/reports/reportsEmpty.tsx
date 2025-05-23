@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React from "react";
 import { View } from "react-native";
 import { Image, StyleSheet } from "react-native";
@@ -18,6 +19,7 @@ export default function ReportsEmpty() {
         <Button
           mode="contained"
           icon="plus-circle"
+          buttonColor={Colors.highlightColor}
           onPress={() => console.log("Pressed")}
         >
           <Text style={styles.createText}> Crea tu primer reporte! </Text>
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   createText: {
-    color: "white",
+    color: Colors.darkColorSecondary,
     fontSize: 15,
     marginRight: 20,
   },
