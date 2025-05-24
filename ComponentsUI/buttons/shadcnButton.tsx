@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { center } from "@/constants/styleUtils";
 import { BASE_WIDTH } from "@/constants/Values";
 import React, { ReactNode } from "react";
 import {
@@ -24,10 +25,7 @@ export function useStyles(fontSize?: number) {
 
   return StyleSheet.create({
     buttonContainer: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
+      ...center,
       margin: "auto",
     },
     touchableStye: {

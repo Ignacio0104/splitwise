@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { firestore } from "../../../firebaseConfig";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { UserData } from "./userStoreModels";
-import { mockUserData } from "./userMocks/userMockResponses";
+import { Report, UserData } from "./userStoreModels";
+import { mockReports, mockUserData } from "./userMocks/userMockResponses";
 
 const userDataStore = create<{
   userData: UserData | null;
@@ -10,7 +10,7 @@ const userDataStore = create<{
   error: string | null;
   fetchData: (id: string) => Promise<void>;
   saveData: (email: string) => Promise<void>;
-  fetchReports: (reportsIds: string[]) => Promise<Report[]>;
+  fetchReports: (reportsIds: string[]) => Promise<void>;
 }>((set) => ({
   userData: null,
   loading: true,
@@ -25,6 +25,8 @@ const userDataStore = create<{
         loading: false,
         error: null,
       });
+
+      userDataStore.getState().fetchReports(["12234"]);
 
       // // Obtener el documento de Firestore por ID
       // const docRef = doc(firestore, "users", id); // "users" es la colección y id es el documento
@@ -75,12 +77,21 @@ const userDataStore = create<{
       //     return reportData as Report;
       //   })
       // );
-      set({ loading: false, error: null });
-      return [];
+      const state = userDataStore.getState();
+
+      if (state.userData && state.userData.uid) {
+        set({
+          loading: false,
+          error: null,
+          userData: {
+            ...state.userData,
+            reports: mockReports,
+          },
+        });
+      }
     } catch (error) {
       set({ error: "Error", loading: false });
     }
-    return [];
   },
 }));
 

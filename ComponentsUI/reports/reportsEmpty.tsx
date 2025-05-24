@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { center } from "@/constants/styleUtils";
 import React from "react";
 import { View } from "react-native";
 import { Image, StyleSheet } from "react-native";
@@ -8,7 +9,7 @@ import { Button } from "react-native-paper";
 export default function ReportsEmpty() {
   return (
     <View>
-      <Text style={styles.fontStyleWhite}>No hay reportes!</Text>
+      <Text style={styles.fontStyleWhite}>No se encontraron resportes</Text>
       <View style={styles.emptyImageContainer}>
         <Image
           style={styles.emptyImage}
@@ -31,28 +32,29 @@ export default function ReportsEmpty() {
 
 const styles = StyleSheet.create({
   emptyImageContainer: {
+    margin: "auto",
     display: "flex",
     marginTop: 20,
     justifyContent: "center",
     alignItems: "center",
+    height: "70%",
     width: "90%",
   },
   emptyImage: {
-    height: "80%",
     opacity: 0.3,
+    height: "100%",
+    width: "100%",
     resizeMode: "contain",
   },
   fontStyleWhite: {
     color: "white",
     fontSize: 15,
+    margin: "auto",
   },
   buttonContainer: {
     width: "90%",
     margin: "auto",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    ...center,
   },
   createText: {
     color: Colors.darkColorSecondary,
