@@ -12,7 +12,9 @@ export interface UserData {
 
 export interface Report {
   id: string;
+  name: string;
   type: string;
+  active: boolean;
   users: ReportUserData[];
   total?: number;
   percentages: UserPercentage[];

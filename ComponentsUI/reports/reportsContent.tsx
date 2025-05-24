@@ -14,15 +14,40 @@ export function useStyles(fontSize?: number) {
   return StyleSheet.create({
     reportContainer: {
       height: aspectRatio * 70,
-      backgroundColor: Colors.darkColorSecondary,
       marginBottom: 20,
       ...verticalCenter,
-      borderRadius: 10,
     },
-    fontStyleWhite: {
+    reportsTitle: {
       color: "white",
       fontSize: 15,
       marginBottom: 20,
+    },
+    reportItemTitle: {
+      fontSize: aspectRatio * 15,
+      color: "white",
+      fontWeight: 500,
+    },
+    splitterInfo: {
+      display: "flex",
+      flexDirection: "row",
+      width: "100%",
+      paddingTop: 10,
+    },
+    splitterName: {
+      marginRight: aspectRatio * 10,
+      color: Colors.gray,
+      fontWeight: 300,
+    },
+    splitterTitle: {
+      fontWeight: 300,
+      marginRight: 15,
+      color: Colors.gray,
+    },
+    informationContainer: {
+      marginLeft: aspectRatio * 10,
+      display: "flex",
+      paddingTop: 10,
+      height: "100%",
     },
   });
 }
@@ -34,11 +59,21 @@ export default function ReportsContent() {
 
   return (
     <View>
-      <Text style={styles.fontStyleWhite}>Tus reportes:</Text>
+      <Text style={styles.reportsTitle}>Tus reportes:</Text>
       {reports?.map((report) => (
         <View key={report.id} style={styles.reportContainer}>
           <ReportIcon type={report.type} />
-          <Text style={styles.fontStyleWhite}>{report.type}</Text>
+          <View style={styles.informationContainer}>
+            <Text style={styles.reportItemTitle}>{report.name}</Text>
+            <View style={styles.splitterInfo}>
+              <Text style={styles.splitterTitle}>Splitters: </Text>
+              {report.users.map((user) => (
+                <Text style={styles.splitterName} key={user.name}>
+                  {user.name}
+                </Text>
+              ))}
+            </View>
+          </View>
         </View>
       ))}
     </View>
