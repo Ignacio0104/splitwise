@@ -1,11 +1,18 @@
 import userDataStore from "@/app/mainStores/userStore/UserStore";
 import { BASE_WIDTH } from "@/constants/Values";
 import React, { useEffect } from "react";
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ReportIcon from "./reportIcon";
 import { Colors } from "@/constants/Colors";
 import { verticalCenter } from "@/constants/styleUtils";
+import { router } from "expo-router";
 
 export function useStyles(fontSize?: number) {
   const { width } = useWindowDimensions();
@@ -57,11 +64,22 @@ export default function ReportsContent() {
   const reports = userData?.reports;
   const styles = useStyles();
 
+  const redirectToReport = (reportId: string) => {
+    router.replace({
+      pathname: "/reportEdit/[reportId]",
+      params: { reportId },
+    });
+  };
+
   return (
     <View>
       <Text style={styles.reportsTitle}>Tus reportes:</Text>
       {reports?.map((report) => (
-        <View key={report.id} style={styles.reportContainer}>
+        <TouchableOpacity
+          key={report.id}
+          style={styles.reportContainer}
+          onPress={() => redirectToReport(report.id)}
+        >
           <ReportIcon type={report.type} />
           <View style={styles.informationContainer}>
             <Text style={styles.reportItemTitle}>{report.name}</Text>
@@ -74,7 +92,7 @@ export default function ReportsContent() {
               ))}
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );

@@ -39,7 +39,7 @@ export const mockReports = [
       },
       {
         contributions: [],
-        name: "Anto",
+        name: "Nico",
         reportId: "1234666",
       },
       // {

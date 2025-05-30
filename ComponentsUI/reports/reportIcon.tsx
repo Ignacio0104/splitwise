@@ -9,13 +9,13 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-export function useStyles(fontSize?: number) {
+export function useStyles(editView = false) {
   const { width } = useWindowDimensions();
   const aspectRatio = width / BASE_WIDTH;
 
   return StyleSheet.create({
     iconContainer: {
-      height: "90%",
+      height: editView ? "70%" : "90%",
       width: aspectRatio * 60,
       ...center,
       paddingHorizontal: 10,
@@ -27,10 +27,11 @@ export function useStyles(fontSize?: number) {
 
 export interface ReportIconProps {
   type: string;
+  isEditView?: boolean;
 }
 
 export default function ReportIcon(props: ReportIconProps) {
-  const styles = useStyles();
+  const styles = useStyles(props.isEditView);
 
   const getIcon = () => {
     switch (props.type) {

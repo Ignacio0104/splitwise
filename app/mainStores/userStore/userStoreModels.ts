@@ -17,13 +17,13 @@ export interface Report {
   active: boolean;
   users: ReportUserData[];
   total?: number;
-  percentages: UserPercentage[];
 }
 
 export interface ReportUserData {
   reportId: string;
   name: string;
   contributions: Contributions[];
+  percentage: number;
 }
 
 export interface Contributions {
@@ -33,9 +33,4 @@ export interface Contributions {
   amount: number;
   date: Datetime | string;
   receiptPhotoUrl?: string;
-}
-
-export interface UserPercentage {
-  name: string;
-  percentage: number;
 }

@@ -11,6 +11,7 @@ const userDataStore = create<{
   fetchData: (id: string) => Promise<void>;
   saveData: (email: string) => Promise<void>;
   fetchReports: (reportsIds: string[]) => Promise<void>;
+  getReportById: (reportId: string) => Report | undefined;
 }>((set) => ({
   userData: null,
   loading: true,
@@ -92,6 +93,12 @@ const userDataStore = create<{
     } catch (error) {
       set({ error: "Error", loading: false });
     }
+  },
+
+  getReportById: (reportId: string) => {
+    const reports: Report[] = userDataStore.getState().userData?.reports || [];
+
+    return reports.find((report) => report.id === reportId);
   },
 }));
 
