@@ -31,16 +31,19 @@ export const mockReports = [
         contributions: [],
         name: "Anto",
         reportId: "1234",
+        percentage: 35,
       },
       {
         contributions: [],
         name: "Nacho",
         reportId: "123412131",
+        percentage: 35,
       },
       {
         contributions: [],
         name: "Nico",
         reportId: "1234666",
+        percentage: 30,
       },
       // {
       //   contributions: [],
@@ -102,16 +105,6 @@ export const mockReports = [
     type: "party",
     name: "Cumpleaños Anto",
     active: false,
-    percentages: [
-      {
-        name: "Anto",
-        percentage: 50,
-      },
-      {
-        name: "Nacho",
-        percentage: 50,
-      },
-    ],
     users: [
       {
         contributions: [],
@@ -186,26 +179,18 @@ export const mockReports = [
     type: "other",
     name: "Flores",
     active: false,
-    percentages: [
-      {
-        name: "Anto",
-        percentage: 50,
-      },
-      {
-        name: "Nacho",
-        percentage: 50,
-      },
-    ],
     users: [
       {
         contributions: [],
         name: "Anto",
         reportId: "1234",
+        percentage: 50,
       },
       {
         contributions: [],
         name: "Nacho",
         reportId: "1234",
+        percentage: 50,
       },
     ],
   },

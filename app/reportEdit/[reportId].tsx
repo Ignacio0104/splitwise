@@ -8,7 +8,7 @@ import { Report } from "../mainStores/userStore/userStoreModels";
 import { BASE_WIDTH } from "@/constants/Values";
 import ReportIcon from "@/ComponentsUI/reports/reportIcon";
 import { center, verticalCenter } from "@/constants/styleUtils";
-import LineChart from "@/ComponentsUI/charts/lineChart";
+import BarChart from "@/ComponentsUI/charts/barChart";
 
 export function useStyles() {
   const { width } = useWindowDimensions();
@@ -70,7 +70,7 @@ export default function ReportEdit() {
           <Text style={style.headerText}>{reportInfo?.name}</Text>
         </View>
         <View style={style.chartContainer}>
-          {reportInfo && <LineChart report={reportInfo} />}
+          {reportInfo && <BarChart report={reportInfo} />}
         </View>
       </View>
     </SafeAreaView>
