@@ -46,7 +46,10 @@ export default function RootLayout() {
       if (!user) {
         router.replace("/login");
       } else {
-        router.replace("/");
+        router.replace({
+          pathname: "/reportEdit/[reportId]",
+          params: { reportId: "12345" },
+        });
       }
     }
   }, [user, loading, fontsLoaded]);
@@ -61,6 +64,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="reportEdit" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
