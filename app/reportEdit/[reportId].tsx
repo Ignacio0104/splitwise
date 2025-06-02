@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import userDataStore from "../mainStores/userStore/UserStore";
-import { Report } from "../mainStores/userStore/userStoreModels";
 import { BASE_WIDTH } from "@/constants/Values";
 import ReportIcon from "@/ComponentsUI/reports/reportIcon";
 import { center, verticalCenter } from "@/constants/styleUtils";
 import BarChart from "@/ComponentsUI/charts/barChart";
+import { Colors } from "@/constants/Colors";
+import store from "../store/mainStore";
+import { Report } from "../store/storeModels";
 
 export function useStyles() {
   const { width } = useWindowDimensions();
@@ -37,13 +38,23 @@ export function useStyles() {
     },
     chartContainer: {
       ...center,
+      marginTop: 30,
+    },
+    chartDivisionContainer: {
+      ...center,
+    },
+    chartDivision: {
+      height: 2,
+      width: "90%",
+      backgroundColor: Colors.lightColorPrimary,
+      marginTop: 10,
     },
   });
 }
 
 export default function ReportEdit() {
   const { reportId } = useLocalSearchParams();
-  const { getReportById } = userDataStore();
+  const { getReportById } = store();
   const style = useStyles();
 
   const [reportInfo, setReportInfo] = useState<Report | undefined>(undefined);
@@ -71,6 +82,9 @@ export default function ReportEdit() {
         </View>
         <View style={style.chartContainer}>
           {reportInfo && <BarChart report={reportInfo} />}
+        </View>
+        <View style={style.chartDivisionContainer}>
+          <View style={style.chartDivision}></View>
         </View>
       </View>
     </SafeAreaView>

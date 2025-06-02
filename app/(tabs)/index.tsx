@@ -1,17 +1,17 @@
 import { StyleSheet, View, Text, SafeAreaView } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import userDataStore from "../mainStores/userStore/UserStore";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import { useEffect } from "react";
 import userAuthStore from "../login/store/AuthStore";
 import ReportsMain from "../../ComponentsUI/reports/reportsMain";
 import UserHeaderInformation from "@/ComponentsUI/headerInformation/userHeaderInformation";
+import store from "../store/mainStore";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { user } = userAuthStore();
-  const { fetchData, saveData, loading } = userDataStore();
+  const { fetchData, loading } = store();
 
   useEffect(() => {
     if (user) {

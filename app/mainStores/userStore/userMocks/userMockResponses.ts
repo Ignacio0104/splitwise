@@ -1,197 +1,47 @@
-import { UserData, Report } from "../userStoreModels";
+import { DateTime } from "luxon";
+import { ReportType } from "../enums";
+import { Report, ReportUserData, UserData } from "@/app/store/storeModels";
 
-export const mockUserData = {
-  friendsIds: [],
-  lastname: "Smirlian",
-  name: "Nacho",
-  reports: [],
-  uid: "21341414",
-  reportsIds: [],
-  photoUrl: "",
-} as UserData;
+// export const mockUserData = {
+//   friendsIds: [],
+//   lastname: "Smirlian",
+//   name: "Nacho",
+//   reports: [],
+//   uid: "21341414",
+//   reportsIds: [],
+//   photoUrl: "",
+// } as UserData;
 
-export const mockReports = [
-  {
-    id: "12345",
-    type: "shopping",
-    name: "Compras Agosto",
-    active: false,
-    percentages: [
-      {
-        name: "Anto",
-        percentage: 50,
-      },
-      {
-        name: "Nacho",
-        percentage: 50,
-      },
-    ],
-    users: [
-      {
-        contributions: [],
-        name: "Anto",
-        reportId: "1234",
-        percentage: 35,
-      },
-      {
-        contributions: [],
-        name: "Nacho",
-        reportId: "123412131",
-        percentage: 35,
-      },
-      {
-        contributions: [],
-        name: "Nico",
-        reportId: "1234666",
-        percentage: 30,
-      },
-      // {
-      //   contributions: [],
-      //   name: "Nacho",
-      //   reportId: "123433",
-      // },
-      // {
-      //   contributions: [],
-      //   name: "Anto",
-      //   reportId: "1234222",
-      // },
-      // {
-      //   contributions: [],
-      //   name: "Nacho",
-      //   reportId: "123411",
-      // },
-      // {
-      //   contributions: [],
-      //   name: "Anto",
-      //   reportId: "12346",
-      // },
-      // {
-      //   contributions: [],
-      //   name: "Nacho",
-      //   reportId: "12345",
-      // },
-    ],
-  },
-  {
-    id: "1234",
-    type: "household",
-    name: "Gastos Septiembre",
-    active: true,
-    percentages: [
-      {
-        name: "Anto",
-        percentage: 50,
-      },
-      {
-        name: "Nacho",
-        percentage: 50,
-      },
-    ],
-    users: [
-      {
-        contributions: [],
-        name: "Anto",
-        reportId: "1234",
-      },
-      {
-        contributions: [],
-        name: "Nacho",
-        reportId: "1234",
-      },
-    ],
-  },
-  {
-    id: "122",
-    type: "party",
-    name: "Cumpleaños Anto",
-    active: false,
-    users: [
-      {
-        contributions: [],
-        name: "Anto",
-        reportId: "1234",
-      },
-      {
-        contributions: [],
-        name: "Nacho",
-        reportId: "1234",
-      },
-    ],
-  },
-  {
-    id: "123456",
-    type: "dinner",
-    name: "Cena Kiddos",
-    active: true,
-    percentages: [
-      {
-        name: "Anto",
-        percentage: 50,
-      },
-      {
-        name: "Nacho",
-        percentage: 50,
-      },
-    ],
-    users: [
-      {
-        contributions: [],
-        name: "Anto",
-        reportId: "1234",
-      },
-      {
-        contributions: [],
-        name: "Nacho",
-        reportId: "1234",
-      },
-    ],
-  },
-  {
-    id: "123",
-    type: "trip",
-    name: "Viaje a Europa",
-    active: true,
-    percentages: [
-      {
-        name: "Anto",
-        percentage: 50,
-      },
-      {
-        name: "Nacho",
-        percentage: 50,
-      },
-    ],
-    users: [
-      {
-        contributions: [],
-        name: "Anto",
-        reportId: "1234",
-      },
-      {
-        contributions: [],
-        name: "Nacho",
-        reportId: "1234",
-      },
-    ],
-  },
-  {
-    id: "111",
-    type: "other",
-    name: "Flores",
-    active: false,
-    users: [
-      {
-        contributions: [],
-        name: "Anto",
-        reportId: "1234",
-        percentage: 50,
-      },
-      {
-        contributions: [],
-        name: "Nacho",
-        reportId: "1234",
-        percentage: 50,
-      },
-    ],
-  },
-] as Report[];
+// export const mockUserContributions = [
+//   {
+//     userId: "1111",
+//     contributions: [
+//       {
+//         amount: 70000,
+//         date: DateTime.fromISO("2025-05-31T09:00:00-03:00"),
+//         name: "Compras Coto",
+//         description: "Primer compra mensual",
+//       },
+//     ],
+//   },
+//   {
+//     userId: "2222",
+//     contributions: [
+//       {
+//         amount: 60000,
+//         date: DateTime.fromISO("2025-05-23T15:00:00-03:00"),
+//         name: "Compras Dia",
+//       },
+//     ],
+//   },
+// ] as ReportUserData[];
+
+// export const mockReports = [
+//   {
+//     active: true,
+//     id: "12345",
+//     name: "Compras Agosto",
+//     type: ReportType.HOUSEHOLD,
+//     users: mockUserContributions,
+//   },
+// ] as Report[];

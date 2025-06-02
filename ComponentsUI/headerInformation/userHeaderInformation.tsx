@@ -1,11 +1,11 @@
-import userDataStore from "@/app/mainStores/userStore/UserStore";
+import store from "@/app/store/mainStore";
 import { Colors } from "@/constants/Colors";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-paper";
 
 export default function UserHeaderInformation() {
-  const { userData } = userDataStore();
+  const { userData } = store();
 
   return (
     <View style={styles.mainContainer}>
