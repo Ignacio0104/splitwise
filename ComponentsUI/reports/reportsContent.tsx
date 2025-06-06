@@ -1,4 +1,3 @@
-import userDataStore from "@/app/mainStores/userStore/UserStore";
 import { BASE_WIDTH } from "@/constants/Values";
 import React, { useEffect } from "react";
 import {
@@ -13,6 +12,7 @@ import ReportIcon from "./reportIcon";
 import { Colors } from "@/constants/Colors";
 import { verticalCenter } from "@/constants/styleUtils";
 import { router } from "expo-router";
+import store from "@/app/store/mainStore";
 
 export function useStyles(fontSize?: number) {
   const { width } = useWindowDimensions();
@@ -60,7 +60,7 @@ export function useStyles(fontSize?: number) {
 }
 
 export default function ReportsContent() {
-  const { userData } = userDataStore();
+  const { userData } = store();
   const reports = userData?.reports;
   const styles = useStyles();
 
@@ -85,8 +85,8 @@ export default function ReportsContent() {
             <Text style={styles.reportItemTitle}>{report.name}</Text>
             <View style={styles.splitterInfo}>
               <Text style={styles.splitterTitle}>Splitters: </Text>
-              {report.users.map((user) => (
-                <Text style={styles.splitterName} key={user.name}>
+              {report.users.map((user, index) => (
+                <Text style={styles.splitterName} key={index}>
                   {user.name}
                 </Text>
               ))}

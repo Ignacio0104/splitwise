@@ -46,10 +46,11 @@ export default function RootLayout() {
       if (!user) {
         router.replace("/login");
       } else {
-        router.replace({
-          pathname: "/reportEdit/[reportId]",
-          params: { reportId: "12345" },
-        });
+        router.replace("/");
+        // router.replace({
+        //   pathname: "/reportEdit/[reportId]",
+        //   params: { reportId: "12345" },
+        // });
       }
     }
   }, [user, loading, fontsLoaded]);

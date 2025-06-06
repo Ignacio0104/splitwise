@@ -1,13 +1,11 @@
-import userDataStore from "@/app/mainStores/userStore/UserStore";
-import React, { useEffect } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { Button } from "react-native-paper";
-import ReportsEmpty from "./reportsEmpty";
+import store from "@/app/store/mainStore";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import ReportsContent from "./reportsContent";
+import ReportsEmpty from "./reportsEmpty";
 
 export default function ReportsMain() {
-  const { userData } = userDataStore();
+  const { userData } = store();
 
   return (
     <View style={styles.mainContainer}>
