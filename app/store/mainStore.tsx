@@ -42,6 +42,7 @@ const store = create<MainStoreModel>((set) => ({
 
         const parsedUserData: UserData = {
           ...documentData,
+          uid: id,
           friends: [],
           reports: [],
         };
@@ -55,11 +56,13 @@ const store = create<MainStoreModel>((set) => ({
         );
 
         parsedUserData.reports = parsedUserData.reports.map((report) =>
-          getReportWithFriendsData(report, [...parsedUserData.friends])
+          getReportWithFriendsData({ ...parsedUserData }, report, [
+            ...parsedUserData.friends,
+          ])
         );
 
         set({
-          userData: { ...parsedUserData, uid: id },
+          userData: { ...parsedUserData },
           loading: false,
           error: null,
         });

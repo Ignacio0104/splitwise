@@ -11,6 +11,7 @@ import {
   MainStoreModel,
   Report,
   ReportUserData,
+  UserData,
   UserDataResponse,
 } from "./storeModels";
 import store from "./mainStore";
@@ -70,7 +71,11 @@ export async function fetchFriendsInformation(friendsIds: string[]) {
   return friendsWithData;
 }
 
-export function getReportWithFriendsData(report: Report, friends: Friend[]) {
+export function getReportWithFriendsData(
+  mainUser: UserData,
+  report: Report,
+  friends: Friend[]
+) {
   const reportData = { ...report };
 
   if (reportData) {
@@ -78,8 +83,16 @@ export function getReportWithFriendsData(report: Report, friends: Friend[]) {
       ...reportData,
       users: reportData.users.map((user) => {
         console.log(user);
-        console.log(friends);
+        console.log(mainUser.uid);
         if ((!user.name || !user.lastname) && (user as ReportUserData).userId) {
+          if ((user as ReportUserData).userId === mainUser.uid) {
+            return {
+              ...user,
+              name: mainUser.name,
+              lastname: mainUser.lastname,
+            } as ReportUserData;
+          }
+
           const foundFriend = friends.find(
             (friend) => friend.userId === (user as ReportUserData).userId
           );

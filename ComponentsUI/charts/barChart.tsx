@@ -69,9 +69,8 @@ export default function BarChart(props: BarChartProps) {
   return (
     <View style={styles.chartBackground}>
       {props.report.users.map((_, index) => (
-        <View>
+        <View key={index}>
           <Animated.View
-            key={index}
             style={[
               styles.barStyle,
               {

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { ReportType } from "../mainStores/userStore/enums";
+import { ReportType } from "./models";
 
 export interface MainStoreModel {
   userData: UserData | null;
