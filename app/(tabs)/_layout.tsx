@@ -15,6 +15,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { BASE_WIDTH } from "@/constants/Values";
 import TabButtons from "@/ComponentsUI/buttons/tabButtons";
+import { center } from "@/constants/styleUtils";
 
 export default function TabLayout() {
   const styles = useStyles();
@@ -70,12 +71,12 @@ export function useStyles() {
 
   return StyleSheet.create({
     tabsStyle: {
+      margin: "auto",
       height: aspectRatio * 65,
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
+      ...center,
       width: "auto",
-      alignItems: "center",
+      backgroundColor: "rgba(255, 255, 255, 0.1)",
+      borderRadius: 20,
     },
   });
 }

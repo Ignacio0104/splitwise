@@ -7,4 +7,5 @@ export const Colors = {
   highlightColor: "#F5CB5C",
   lightColorPrimary: "#E8EDDF",
   lightColorSecondary: "#CFDBD5",
+  gray: "#6c757d",
 };
