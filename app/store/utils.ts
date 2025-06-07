@@ -7,6 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import {
+  Contribution,
   Friend,
   MainStoreModel,
   Report,
@@ -42,6 +43,33 @@ export async function fetchReportsInformation(reportsIds: string[]) {
   return reportsWithData;
 }
 
+export async function fetchContributionsInformation(contributionIds: string[]) {
+  const batchSize = 10; //Max amount of id to get in one call
+
+  const userConnectionRef = collection(firestore, "contributions");
+
+  const contributions: Contribution[] = [];
+
+  for (let i = 0; i < contributionIds.length; i += batchSize) {
+    const batchIds = contributionIds.slice(i, i + batchSize);
+    const reportQuery = query(
+      userConnectionRef,
+      where(documentId(), "in", batchIds)
+    );
+
+    const contributionsQuerySnapshot = await getDocs(reportQuery);
+    contributionsQuerySnapshot.forEach((contributionDoc) => {
+      const data = contributionDoc.data() as Contribution;
+
+      contributions.push({
+        ...data,
+      });
+    });
+  }
+
+  return contributions;
+}
+
 export async function fetchFriendsInformation(friendsIds: string[]) {
   const batchSize = 10; //Max amount of id to get in one call
 
@@ -71,39 +99,53 @@ export async function fetchFriendsInformation(friendsIds: string[]) {
   return friendsWithData;
 }
 
-export function getReportWithFriendsData(
+export async function getReportWithFriendsData(
   mainUser: UserData,
   report: Report,
   friends: Friend[]
 ) {
   const reportData = { ...report };
 
-  if (reportData) {
+  if (reportData && reportData.users) {
+    const updatedUsersPromises = reportData.users.map(async (user) => {
+      if ((!user.name || !user.lastname) && (user as ReportUserData).userId) {
+        if ((user as ReportUserData).userId === mainUser.uid) {
+          const contributions = await fetchContributionsInformation(
+            (user as ReportUserData).contributionsIds
+          );
+
+          return {
+            ...(user as ReportUserData),
+            name: mainUser.name,
+            lastname: mainUser.lastname,
+            contributions: contributions,
+          } as ReportUserData;
+        }
+
+        const foundFriend = friends.find(
+          (friend) => friend.userId === (user as ReportUserData).userId
+        );
+
+        const contributions = await fetchContributionsInformation(
+          (user as ReportUserData).contributionsIds
+        );
+
+        return {
+          ...(user as ReportUserData),
+          name: foundFriend?.name ?? "",
+          lastname: foundFriend?.lastname ?? "",
+          contributions: contributions,
+        } as ReportUserData;
+      }
+
+      return user;
+    });
+
+    const updatedUsers = await Promise.all(updatedUsersPromises);
+
     const updatedReportData: Report = {
       ...reportData,
-      users: reportData.users.map((user) => {
-        console.log(user);
-        console.log(mainUser.uid);
-        if ((!user.name || !user.lastname) && (user as ReportUserData).userId) {
-          if ((user as ReportUserData).userId === mainUser.uid) {
-            return {
-              ...user,
-              name: mainUser.name,
-              lastname: mainUser.lastname,
-            } as ReportUserData;
-          }
-
-          const foundFriend = friends.find(
-            (friend) => friend.userId === (user as ReportUserData).userId
-          );
-          return {
-            ...user,
-            name: foundFriend?.name ?? "",
-            lastname: foundFriend?.lastname ?? "",
-          };
-        }
-        return user;
-      }),
+      users: updatedUsers,
     };
 
     return updatedReportData;

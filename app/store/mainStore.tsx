@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import {
+  Contribution,
   MainStoreModel,
   Report,
   UserData,
@@ -16,6 +17,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "@/firebaseConfig";
 import {
+  fetchContributionsInformation,
   fetchFriendsInformation,
   fetchReportsInformation,
   getReportWithFriendsData,
@@ -55,12 +57,17 @@ const store = create<MainStoreModel>((set) => ({
           parsedUserData.friendsIds
         );
 
-        parsedUserData.reports = parsedUserData.reports.map((report) =>
-          getReportWithFriendsData({ ...parsedUserData }, report, [
-            ...parsedUserData.friends,
-          ])
-        );
+        if (parsedUserData.reports) {
+          const reportPromises = parsedUserData.reports.map((report) =>
+            getReportWithFriendsData({ ...parsedUserData }, report, [
+              ...parsedUserData.friends,
+            ])
+          );
 
+          parsedUserData.reports = await Promise.all(reportPromises);
+        }
+
+        console.log(parsedUserData.reports);
         set({
           userData: { ...parsedUserData },
           loading: false,

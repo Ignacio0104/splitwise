@@ -35,26 +35,21 @@ export interface Report {
   name: string;
   type: ReportType;
   active: boolean;
-  users: ReportUserData[] | UnregistredUserData[];
+  users: ReportUserData[];
   total?: number;
 }
 
 export interface ReportUserData {
-  userId: string;
+  userId?: string;
   name: string;
   lastname: string;
-  contributions: Contributions[];
+  contributionsIds: string[];
+  contributions: Contribution[];
   fixedPercentage?: number;
 }
 
-export interface UnregistredUserData {
-  name: string;
-  lastname: string;
-  contributions: Contributions[];
-  fixedPercentage?: number;
-}
-
-export interface Contributions {
+export interface Contribution {
+  id: string;
   userId: string;
   reportId: string;
   description?: string;
