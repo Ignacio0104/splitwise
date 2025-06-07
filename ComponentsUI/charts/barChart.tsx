@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { getAmounts } from "./chartUtil";
 
 interface BarChartProps {
   report: Report;
@@ -41,11 +42,14 @@ export default function BarChart(props: BarChartProps) {
   ).current;
 
   useEffect(() => {
-    const maxPercentage = Math.max(
-      ...props.report.users.map((user) => user.fixedPercentage || 0)
-    );
+    // const maxPercentage = Math.max(
+    //   ...props.report.users.map((user) => user.fixedPercentage || 0)
+    // );
 
-    if (maxPercentage === 0) {
+    const amounts = getAmounts(props.report);
+    const maxAmount = amounts.get("MaxContribution") || 0;
+
+    if (maxAmount === 0) {
       animatedBarHeights.forEach((val) => val.setValue(0));
       return;
     }
@@ -53,7 +57,7 @@ export default function BarChart(props: BarChartProps) {
       const totalHeight = styles.chartBackground.height;
 
       const normalizedHeight =
-        ((user.fixedPercentage ?? 0) / maxPercentage) * totalHeight;
+        ((amounts.get(user.userId) ?? 0) / maxAmount) * totalHeight;
 
       return Animated.timing(animatedBarHeights[index], {
         toValue: normalizedHeight,

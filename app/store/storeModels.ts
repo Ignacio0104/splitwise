@@ -40,7 +40,7 @@ export interface Report {
 }
 
 export interface ReportUserData {
-  userId?: string;
+  userId: string;
   name: string;
   lastname: string;
   contributionsIds: string[];

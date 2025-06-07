@@ -44,6 +44,7 @@ export function useStyles(fontSize?: number) {
       marginRight: aspectRatio * 10,
       color: Colors.gray,
       fontWeight: 300,
+      fontStyle: "italic",
     },
     splitterTitle: {
       fontWeight: 300,
@@ -51,7 +52,7 @@ export function useStyles(fontSize?: number) {
       color: Colors.gray,
     },
     informationContainer: {
-      marginLeft: aspectRatio * 10,
+      marginLeft: aspectRatio * 14,
       display: "flex",
       paddingTop: 10,
       height: "100%",

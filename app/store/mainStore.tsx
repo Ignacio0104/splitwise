@@ -22,6 +22,7 @@ import {
   fetchReportsInformation,
   getReportWithFriendsData,
 } from "./utils";
+import { mockUserData } from "./mocks/mockResponses";
 
 const store = create<MainStoreModel>((set) => ({
   //Default values
@@ -34,56 +35,54 @@ const store = create<MainStoreModel>((set) => ({
   fetchData: async (id: string) => {
     try {
       set({ loading: true });
+
+      set({
+        userData: { ...mockUserData },
+        loading: false,
+        error: null,
+      });
+
       // Obtener el documento de Firestore por ID
-      const docRef = doc(firestore, "users", id); // "users" es la colección y id es el documento
-      const docSnap = await getDoc(docRef);
+      // const docRef = doc(firestore, "users", id); // "users" es la colección y id es el documento
+      // const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        //const documentData = mockFetchData();
-        const documentData = docSnap.data() as UserDataResponse;
+      // if (docSnap.exists()) {
+      //   //const documentData = mockFetchData();
+      //   const documentData = docSnap.data() as UserDataResponse;
 
-        const parsedUserData: UserData = {
-          ...documentData,
-          uid: id,
-          friends: [],
-          reports: [],
-        };
+      //   const parsedUserData: UserData = {
+      //     ...documentData,
+      //     uid: id,
+      //     friends: [],
+      //     reports: [],
+      //   };
 
-        parsedUserData.reports = await fetchReportsInformation(
-          parsedUserData.reportsIds
-        );
+      //   parsedUserData.reports = await fetchReportsInformation(
+      //     parsedUserData.reportsIds
+      //   );
 
-        parsedUserData.friends = await fetchFriendsInformation(
-          parsedUserData.friendsIds
-        );
+      //   parsedUserData.friends = await fetchFriendsInformation(
+      //     parsedUserData.friendsIds
+      //   );
 
-        if (parsedUserData.reports) {
-          const reportPromises = parsedUserData.reports.map((report) =>
-            getReportWithFriendsData({ ...parsedUserData }, report, [
-              ...parsedUserData.friends,
-            ])
-          );
+      //   if (parsedUserData.reports) {
+      //     const reportPromises = parsedUserData.reports.map((report) =>
+      //       getReportWithFriendsData({ ...parsedUserData }, report, [
+      //         ...parsedUserData.friends,
+      //       ])
+      //     );
 
-          parsedUserData.reports = await Promise.all(reportPromises);
-        }
-
-        console.log(parsedUserData.reports);
-        set({
-          userData: { ...parsedUserData },
-          loading: false,
-          error: null,
-        });
-      } else {
-        set({ error: "No such document!", loading: false });
-      }
+      //     parsedUserData.reports = await Promise.all(reportPromises);
+      //   }
 
       //   set({
-      //     userData: { ...mockUserData, uid: id },
+      //     userData: { ...parsedUserData },
       //     loading: false,
       //     error: null,
       //   });
-
-      //   userDataStore.getState().fetchReports(["12234"]);
+      // } else {
+      //   set({ error: "No such document!", loading: false });
+      // }
     } catch (error) {
       set({ error: "error", loading: false });
     }
