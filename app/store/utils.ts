@@ -134,6 +134,7 @@ export async function getReportWithFriendsData(
           ...(user as ReportUserData),
           name: foundFriend?.name ?? "",
           lastname: foundFriend?.lastname ?? "",
+          photoUrl: foundFriend?.photoUrl,
           contributions: contributions,
         } as ReportUserData;
       }

@@ -42,7 +42,7 @@ const store = create<MainStoreModel>((set) => ({
         error: null,
       });
 
-      // Obtener el documento de Firestore por ID
+      // //Obtener el documento de Firestore por ID
       // const docRef = doc(firestore, "users", id); // "users" es la colección y id es el documento
       // const docSnap = await getDoc(docRef);
 

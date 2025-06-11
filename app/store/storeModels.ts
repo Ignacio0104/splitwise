@@ -46,6 +46,7 @@ export interface ReportUserData {
   contributionsIds: string[];
   contributions: Contribution[];
   fixedPercentage?: number;
+  photoUrl?: string;
 }
 
 export interface Contribution {
