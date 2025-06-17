@@ -63,15 +63,25 @@ export default function ContributionItem({ contribution }: ContributionItemProps
   const [userData, setUserData] = useState<Friend | undefined>(undefined);
   const dateParsed = typeof date === 'string' ? DateTime.fromISO(date) : date;
   const monthParsed = upperCaseFirstLetter(dateParsed.monthShort || '');
-  const { setShowModal } = modalStore();
+  const { setShowModal, setModalInformation } = modalStore();
   const { getUserInformation } = store();
+
+  const handleModalOpen = () => {
+    setModalInformation({
+      contributionData: contribution,
+      lastname: userData?.name || '',
+      name: userData?.lastname || '',
+      photoUrl: userData?.photoUrl,
+    });
+    setShowModal(true);
+  };
 
   useEffect(() => {
     setUserData(getUserInformation(contribution.userId));
   }, [contribution]);
 
   return (
-    <TouchableOpacity onPress={() => setShowModal(true)} style={style.contributionItem}>
+    <TouchableOpacity onPress={handleModalOpen} style={style.contributionItem}>
       <View style={style.textContainer}>
         <View style={{ marginLeft: 10 }}>
           <Text style={style.textStyle}>

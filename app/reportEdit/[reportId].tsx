@@ -12,6 +12,7 @@ import store from '../store/mainStore';
 import { Report, ReportUserData } from '../store/storeModels';
 import UserContribution from '@/ComponentsUI/contributions/userContribution';
 import modalStore from '../store/modalStore';
+import ReportModal from '@/ComponentsUI/reports/reportModal';
 
 export function useStyles() {
   const { width, height } = useWindowDimensions();
@@ -67,7 +68,7 @@ export function useStyles() {
 export default function ReportEdit() {
   const { reportId } = useLocalSearchParams();
   const { getReportById } = store();
-  const { showModal, setShowModal } = modalStore();
+  const { showModal, setShowModal, modalInformation } = modalStore();
   const style = useStyles();
 
   const [reportInfo, setReportInfo] = useState<Report | undefined>(undefined);
@@ -77,7 +78,7 @@ export default function ReportEdit() {
     const report = getReportById((reportId as string) || '');
     setReportInfo(report);
 
-    return setShowModal(false);
+    return setShowModal(true);
   }, [reportId]);
 
   const updateSelectedUser = (userData: ReportUserData | null) => {
@@ -93,7 +94,7 @@ export default function ReportEdit() {
             onDismiss={() => setShowModal(false)}
             contentContainerStyle={style.modalContainerStyle}
           >
-            <Text>Example Modal. Click outside this area to dismiss.</Text>
+            <ReportModal />
           </Modal>
         </Portal>
 

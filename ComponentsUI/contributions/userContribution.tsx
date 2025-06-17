@@ -6,6 +6,7 @@ import { SafeAreaView, ScrollView, StyleSheet, Text, useWindowDimensions, View }
 import { Avatar } from 'react-native-paper';
 import ContributionItem from './contributionItem';
 import { sortContributions } from './utils';
+import AvatarDisplay from '../shared/avatarDisplay';
 
 interface userContributionProps {
   selectedUser: ReportUserData | null;
@@ -56,11 +57,7 @@ export default function UserContribution({ allUsersData, selectedUser }: userCon
           <View style={style.headerContainer}>
             {selectedUser && (
               <View>
-                {selectedUser.photoUrl ? (
-                  <Avatar.Image size={50} source={{ uri: selectedUser?.photoUrl }} />
-                ) : (
-                  <Avatar.Text size={50} label={`${selectedUser?.name.charAt(0)}${selectedUser?.lastname.charAt(0)}`} />
-                )}
+                <AvatarDisplay size={50} userData={selectedUser} />
               </View>
             )}
             <Text style={style.headerText}>{title}</Text>

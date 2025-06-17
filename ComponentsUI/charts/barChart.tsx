@@ -4,8 +4,8 @@ import { BASE_WIDTH } from '@/constants/Values';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { getAmounts } from './chartUtil';
-import { Avatar } from 'react-native-paper';
 import { center } from '@/constants/styleUtils';
+import AvatarDisplay from '../shared/avatarDisplay';
 
 interface BarChartProps {
   report: Report;
@@ -83,11 +83,7 @@ export default function BarChart(props: BarChartProps) {
             ]}
           />
           <View style={styles.avatarContainer}>
-            {userItem.photoUrl ? (
-              <Avatar.Image size={20} source={{ uri: userItem?.photoUrl }} />
-            ) : (
-              <Avatar.Text size={20} label={`${userItem?.name.charAt(0)}${userItem?.lastname.charAt(0)}`} />
-            )}
+            <AvatarDisplay userData={userItem} size={20} />
           </View>
         </TouchableOpacity>
       ))}
