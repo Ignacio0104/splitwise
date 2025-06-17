@@ -41,7 +41,7 @@ export const mockUserData = {
               date: '2025-10-25T19:20:00-03:00',
               amount: 10000,
               reportId: 'KwV07xt8yzkHZf58G5nk',
-              userId: 'lIFIUWmdefPH53nFLq1KUSukNkV2',
+              userId: 'SAbeLh2HO6vG8e3Cbj8O',
               description: 'Carniceria',
             },
           ],

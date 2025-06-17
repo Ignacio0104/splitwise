@@ -1,28 +1,14 @@
-import { create } from "zustand";
-import {
-  Contribution,
-  MainStoreModel,
-  Report,
-  UserData,
-  UserDataResponse,
-} from "./storeModels";
-import {
-  collection,
-  doc,
-  documentId,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { firestore } from "@/firebaseConfig";
+import { create } from 'zustand';
+import { Contribution, Friend, MainStoreModel, Report, UserData, UserDataResponse } from './storeModels';
+import { collection, doc, documentId, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { firestore } from '@/firebaseConfig';
 import {
   fetchContributionsInformation,
   fetchFriendsInformation,
   fetchReportsInformation,
   getReportWithFriendsData,
-} from "./utils";
-import { mockUserData } from "./mocks/mockResponses";
+} from './utils';
+import { mockUserData } from './mocks/mockResponses';
 
 const store = create<MainStoreModel>((set) => ({
   //Default values
@@ -39,6 +25,7 @@ const store = create<MainStoreModel>((set) => ({
       set({
         userData: { ...mockUserData },
         loading: false,
+        friends: [...mockUserData.friends],
         error: null,
       });
 
@@ -84,7 +71,7 @@ const store = create<MainStoreModel>((set) => ({
       //   set({ error: "No such document!", loading: false });
       // }
     } catch (error) {
-      set({ error: "error", loading: false });
+      set({ error: 'error', loading: false });
     }
   },
 
@@ -92,6 +79,22 @@ const store = create<MainStoreModel>((set) => ({
     const reports: Report[] = store.getState().userData?.reports || [];
 
     return reports.find((report) => report.id === reportId);
+  },
+
+  getUserInformation: (userId: string): Friend | undefined => {
+    const { friends, userData } = store.getState();
+    let foundUser;
+    if (userId === userData?.uid) {
+      foundUser = {
+        name: userData.name,
+        lastname: userData.lastname,
+        userId: userData.uid,
+        photoUrl: userData.photoUrl,
+      };
+    } else {
+      foundUser = friends.find((friend) => friend.userId === userId);
+    }
+    return foundUser;
   },
 }));
 

@@ -1,5 +1,5 @@
-import { DateTime } from "luxon";
-import { ReportType } from "./models";
+import { DateTime } from 'luxon';
+import { ReportType } from './models';
 
 export interface MainStoreModel {
   userData: UserData | null;
@@ -8,6 +8,7 @@ export interface MainStoreModel {
   error: string | null;
   fetchData: (id: string) => Promise<void>;
   getReportById: (reportId: string) => Report | undefined;
+  getUserInformation: (userId: string) => Friend | undefined;
 }
 
 export interface UserData {

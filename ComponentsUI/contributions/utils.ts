@@ -9,3 +9,7 @@ export function sortContributions(contributionOne: Contribution, contributionTwo
 
   return dateB.toMillis() - dateA.toMillis();
 }
+
+export function upperCaseFirstLetter(word: string) {
+  return `${word.charAt(0).toUpperCase()}${word.slice(1, word.length - 1)}`;
+}
