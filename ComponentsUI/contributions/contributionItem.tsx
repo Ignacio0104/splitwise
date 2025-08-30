@@ -69,8 +69,8 @@ export default function ContributionItem({ contribution }: ContributionItemProps
   const handleModalOpen = () => {
     setModalInformation({
       contributionData: contribution,
-      lastname: userData?.name || '',
-      name: userData?.lastname || '',
+      lastname: userData?.lastname || '',
+      name: userData?.name || '',
       photoUrl: userData?.photoUrl,
     });
     setShowModal(true);

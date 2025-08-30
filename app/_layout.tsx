@@ -1,22 +1,14 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { Stack, useRouter } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
-import "react-native-reanimated";
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_700Bold,
-} from "@expo-google-fonts/inter";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { Text, View } from "react-native";
-import LoginLayout from "./login/_layout";
-import useAuthStore from "./login/store/AuthStore";
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack, useRouter } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
+import 'react-native-reanimated';
+import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Text, View } from 'react-native';
+import LoginLayout from './login/_layout';
+import useAuthStore from './login/store/AuthStore';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,6 +21,10 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_700Bold,
+    'Lato-Regular': require('../assets/fonts/Lato/Lato-Regular.ttf'),
+    'Lato-Bold': require('../assets/fonts/Lato/Lato-Bold.ttf'),
+    'Poppins-Regular': require('../assets/fonts/Poppins/Poppins-Regular.ttf'),
+    'Montserrat-Regular': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -44,12 +40,12 @@ export default function RootLayout() {
   useEffect(() => {
     if (!loading && fontsLoaded) {
       if (!user) {
-        router.replace("/login");
+        router.replace('/login');
       } else {
         //router.replace("/");
         router.replace({
-          pathname: "/reportEdit/[reportId]",
-          params: { reportId: "KwV07xt8yzkHZf58G5nk" },
+          pathname: '/reportEdit/[reportId]',
+          params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
         });
       }
     }
@@ -60,7 +56,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

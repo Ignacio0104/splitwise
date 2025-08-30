@@ -37,6 +37,11 @@ export function useStyles(fontSize?: number) {
       width: '75%',
       marginLeft: '15%',
     },
+    text: {
+      fontFamily: 'Lato-Regular',
+      fontSize: 16,
+      color: '#333',
+    },
   });
 }
 
@@ -48,9 +53,7 @@ export default function ReportModal() {
 
   const { amount, date, reportId, description, receiptPhotoUrl } = contributionData;
 
-  useEffect(() => {
-    console.log(modalInformation.contributionData.receiptPhotoUrl);
-  }, []);
+  useEffect(() => {}, []);
 
   const dateParsed = typeof date === 'string' ? DateTime.fromISO(date) : date;
   return (
@@ -62,11 +65,9 @@ export default function ReportModal() {
             lastname,
             photoUrl,
           }}
-          size={80}
+          size={70}
         />
-        <Text>
-          {name} {lastname}
-        </Text>
+        <Text style={styles.text}>{name}</Text>
       </View>
       <View style={styles.informationContainer}>
         <Text>{dateParsed.toFormat('dd/MM/yyyy')}</Text>
