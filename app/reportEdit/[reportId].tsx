@@ -57,7 +57,7 @@ export function useStyles() {
     modalContainerStyle: {
       backgroundColor: 'white',
       margin: 40,
-      height: 80,
+      height: '70%',
     },
     scrollViewStyle: {
       minHeight: height - optionsBarHeight,
