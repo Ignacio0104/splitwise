@@ -13,11 +13,11 @@ export const Colors = {
 export const Theme = {
   blueBackground: '#111827',
   whiteFont: '#f0f0edff',
-  grayFont: '#9ca3af',
+  grayFont: '#888c94ff',
   greenHiglight: '#22c55e',
   gray800: '#1f2937',
   lightColorSecondary: '#CFDBD5',
-  gray900: '#11182700',
+  grayBackground: '#202122ff',
   black: '#121212',
   gray: '#27272a',
 };

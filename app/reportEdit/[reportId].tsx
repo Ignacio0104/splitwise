@@ -55,10 +55,11 @@ export function useStyles() {
       marginTop: 10,
     },
     modalContainerStyle: {
-      backgroundColor: 'white',
       height: '70%',
       width: '100%',
       marginTop: '100%',
+      borderTopLeftRadius: '5%',
+      borderTopRightRadius: '5%',
     },
     scrollViewStyle: {
       minHeight: height - optionsBarHeight,

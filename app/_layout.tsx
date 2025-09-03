@@ -24,6 +24,7 @@ export default function RootLayout() {
     'Lato-Regular': require('../assets/fonts/Lato/Lato-Regular.ttf'),
     'Lato-Bold': require('../assets/fonts/Lato/Lato-Bold.ttf'),
     'Poppins-Regular': require('../assets/fonts/Poppins/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fonts/Poppins/Poppins-Bold.ttf'),
     'Montserrat-Regular': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
   });
 
