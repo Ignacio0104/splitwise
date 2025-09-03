@@ -16,7 +16,6 @@ import { Button, TextInput } from "react-native-paper";
 import { loginSchema } from "./schemas/loginSchema";
 import { LoginModel } from "./models/loginModel";
 import userAuthStore from "./store/AuthStore";
-import userDataStore from "../mainStores/userStore/UserStore";
 import ShadcnButton from "../../ComponentsUI/buttons/shadcnButton";
 import { Colors } from "@/constants/Colors";
 import { BASE_WIDTH } from "@/constants/Values";

@@ -6,13 +6,6 @@ import {
   Text,
   useWindowDimensions,
 } from "react-native";
-import { SafeAreaView } from "react-native";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { Icon } from "react-native-paper";
-import Entypo from "@expo/vector-icons/Entypo";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { BASE_WIDTH } from "@/constants/Values";
 import TabButtons from "@/ComponentsUI/buttons/tabButtons";
 import { center } from "@/constants/styleUtils";

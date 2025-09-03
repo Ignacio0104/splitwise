@@ -31,6 +31,10 @@ export default function TabButtons({
     ? Colors.highlightColor
     : Colors.lightColorSecondary;
 
+  // useEffect(() => {
+  //   console.log(bottomProps);
+  // }, [bottomProps]);
+
   const renderIcon = (): React.JSX.Element => {
     switch (buttonName) {
       case "home":
