@@ -15,6 +15,7 @@ export const Theme = {
   whiteFont: '#f0f0edff',
   grayFont: '#888c94ff',
   greenHiglight: '#22c55e',
+  greenNoHighlight: '#126832c4',
   gray800: '#1f2937',
   lightColorSecondary: '#CFDBD5',
   grayBackground: '#202122ff',

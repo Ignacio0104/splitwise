@@ -90,7 +90,7 @@ export function useStyles(fontSize?: number) {
     closeText: {
       fontFamily: 'Lato-Bold',
       fontWeight: 400,
-      fontSize: aspectRatio * 25,
+      fontSize: aspectRatio * 18,
       color: Theme.black,
     },
   });

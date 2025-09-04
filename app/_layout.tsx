@@ -25,7 +25,9 @@ export default function RootLayout() {
     'Lato-Bold': require('../assets/fonts/Lato/Lato-Bold.ttf'),
     'Poppins-Regular': require('../assets/fonts/Poppins/Poppins-Regular.ttf'),
     'Poppins-Bold': require('../assets/fonts/Poppins/Poppins-Bold.ttf'),
+    'Poppins-Extra-Bold': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
     'Montserrat-Regular': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
+    'Montserrat-Extra-Bold': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
   });
 
   useEffect(() => {
