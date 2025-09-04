@@ -11,7 +11,7 @@ export const Colors = {
 };
 
 export const Theme = {
-  blueBackground: '#111827',
+  blueBackground: '#0a0b0eff',
   whiteFont: '#f0f0edff',
   grayFont: '#888c94ff',
   greenHiglight: '#22c55e',

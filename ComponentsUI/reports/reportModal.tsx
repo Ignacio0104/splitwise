@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } 
 import AvatarDisplay from '../shared/avatarDisplay';
 import { DateTime } from 'luxon';
 import { BASE_WIDTH } from '@/constants/Values';
-import { center } from '@/constants/styleUtils';
+import { center, EFonts } from '@/constants/styleUtils';
 import { Avatar, Button } from 'react-native-paper';
 import { Colors, Theme } from '@/constants/Colors';
 
@@ -44,7 +44,7 @@ export function useStyles(fontSize?: number) {
       marginLeft: '15%',
     },
     username: {
-      fontFamily: 'Lato-Bold',
+      fontFamily: EFonts.LATO_BOLD,
       fontWeight: 900,
       fontSize: aspectRatio * 25,
       color: Theme.whiteFont,
@@ -54,7 +54,7 @@ export function useStyles(fontSize?: number) {
       height: '50%',
     },
     dateText: {
-      fontFamily: 'Lato-Regular',
+      fontFamily: EFonts.LATO_REGULAR,
       fontSize: aspectRatio * 13,
       color: Theme.grayFont,
     },
@@ -75,7 +75,7 @@ export function useStyles(fontSize?: number) {
     },
     descriptionText: {
       marginTop: 10,
-      fontFamily: 'Lato-Regular',
+      fontFamily: EFonts.LATO_REGULAR,
       fontSize: aspectRatio * 15,
       color: Theme.whiteFont,
     },
@@ -88,7 +88,7 @@ export function useStyles(fontSize?: number) {
       ...center,
     },
     closeText: {
-      fontFamily: 'Lato-Bold',
+      fontFamily: EFonts.LATO_BOLD,
       fontWeight: 400,
       fontSize: aspectRatio * 18,
       color: Theme.black,

@@ -19,4 +19,5 @@ export enum EFonts {
   POPPINS_EXTRA_BOLD = 'Poppins-Extra-Bold',
   MONTSERRAT_REGULAR = 'Montserrat-Regular',
   MONTSERRAT_EXTRA_BOLD = 'Montserrat-Extra-Bold',
+  MONTSERRAT_THIN_ITALIC = 'Montserrat-Thin-Italic',
 }

@@ -6,12 +6,25 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import LoginLayout from './login/_layout';
 import useAuthStore from './login/store/AuthStore';
+import { BASE_WIDTH } from '@/constants/Values';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+// export function useStyles(fontSize?: number) {
+//   const { width } = useWindowDimensions();
+//   const aspectRatio = width / BASE_WIDTH;
+
+//   return StyleSheet.create({
+//     statusBarContainer: {
+//       backgroundColor: 'black',
+//       height: aspectRatio * 40,
+//     },
+//   });
+// }
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -28,6 +41,7 @@ export default function RootLayout() {
     'Poppins-Extra-Bold': require('../assets/fonts/Poppins/Poppins-ExtraBold.ttf'),
     'Montserrat-Regular': require('../assets/fonts/Montserrat/static/Montserrat-Regular.ttf'),
     'Montserrat-Extra-Bold': require('../assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf'),
+    'Montserrat-Thin-Italic': require('../assets/fonts/Montserrat/static/Montserrat-ThinItalic.ttf'),
   });
 
   useEffect(() => {
@@ -45,11 +59,11 @@ export default function RootLayout() {
       if (!user) {
         router.replace('/login');
       } else {
-        //router.replace("/");
-        router.replace({
-          pathname: '/reportEdit/[reportId]',
-          params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
-        });
+        router.replace('/');
+        // router.replace({
+        //   pathname: '/reportEdit/[reportId]',
+        //   params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
+        // });
       }
     }
   }, [user, loading, fontsLoaded]);
@@ -60,13 +74,14 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <StatusBar style="light" />
+
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="reportEdit" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
