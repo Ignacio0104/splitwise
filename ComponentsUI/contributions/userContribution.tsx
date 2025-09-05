@@ -28,6 +28,7 @@ export function useStyles() {
     contributionTotalContainer: {
       marginRight: 20,
     },
+
     contributionTotal: {
       fontSize: aspectRatio * 20,
       color: Theme.whiteFont,
@@ -43,10 +44,11 @@ export function useStyles() {
     contributionListContainer: {
       width: '90%',
       margin: 'auto',
-      marginTop: 25,
+      marginTop: 15,
       display: 'flex',
       flexDirection: 'column',
       gap: 20,
+      height: aspectRatio * 290,
     },
   });
 }
@@ -88,13 +90,13 @@ export default function UserContribution({ allUsersData, selectedUser }: userCon
           </View>
         </View>
       </View>
-      <View style={style.contributionListContainer}>
+      <ScrollView style={style.contributionListContainer}>
         {contributionsToRender
           .sort((a, b) => sortContributions(a, b))
           .map((contribution, index) => (
             <ContributionItem key={index} contribution={contribution} />
           ))}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
