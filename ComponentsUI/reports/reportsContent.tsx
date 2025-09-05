@@ -1,14 +1,12 @@
-import { BASE_WIDTH } from '@/constants/Values';
-import React, { useEffect, useMemo } from 'react';
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import ReportIcon from './reportIcon';
-import { Colors, Theme } from '@/constants/Colors';
-import { EFonts, verticalCenter } from '@/constants/styleUtils';
-import { router } from 'expo-router';
 import store from '@/app/store/mainStore';
-import { Report } from '@/app/store/storeModels';
 import { getTotalFromReport } from '@/app/store/utils';
+import { Theme } from '@/constants/Colors';
+import { EFonts, verticalCenter } from '@/constants/styleUtils';
+import { BASE_WIDTH } from '@/constants/Values';
+import { router } from 'expo-router';
+import React, { useMemo } from 'react';
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import ReportIcon from './reportIcon';
 
 export function useStyles(fontSize?: number) {
   const { width } = useWindowDimensions();
@@ -19,6 +17,8 @@ export function useStyles(fontSize?: number) {
       height: aspectRatio * 70,
       marginBottom: 20,
       ...verticalCenter,
+      backgroundColor: Theme.gray800,
+      borderRadius: 20,
     },
     reportsTitle: {
       color: Theme.whiteFont,
@@ -35,7 +35,7 @@ export function useStyles(fontSize?: number) {
       display: 'flex',
       flexDirection: 'row',
       width: '100%',
-      paddingTop: 10,
+      paddingTop: 5,
     },
     splitterName: {
       marginRight: aspectRatio * 10,
@@ -54,10 +54,14 @@ export function useStyles(fontSize?: number) {
       paddingTop: 10,
       height: '100%',
     },
+    totalContainer: {
+      marginLeft: 'auto',
+      marginRight: 15,
+    },
     totalText: {
-      color: Theme.whiteFont,
+      color: Theme.greenHiglight,
       fontSize: aspectRatio * 17,
-      fontFamily: EFonts.LATO_BOLD,
+      fontFamily: EFonts.MONTSERRAT_EXTRA_BOLD,
     },
   });
 }
@@ -98,7 +102,7 @@ export default function ReportsContent() {
               ))}
             </View>
           </View>
-          <View>
+          <View style={styles.totalContainer}>
             <Text style={styles.totalText}>$ {report.total}</Text>
           </View>
         </TouchableOpacity>
