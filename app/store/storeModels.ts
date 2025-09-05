@@ -37,7 +37,6 @@ export interface Report {
   type: ReportType;
   active: boolean;
   users: ReportUserData[];
-  creator: Partial<UserData>;
   total?: number;
 }
 

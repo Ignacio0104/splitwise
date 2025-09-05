@@ -1,5 +1,11 @@
-import { firestore } from '@/firebaseConfig';
-import { collection, documentId, getDocs, query, where } from 'firebase/firestore';
+import { firestore } from "@/firebaseConfig";
+import {
+  collection,
+  documentId,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import {
   Contribution,
   Friend,
@@ -8,19 +14,22 @@ import {
   ReportUserData,
   UserData,
   UserDataResponse,
-} from './storeModels';
-import store from './mainStore';
+} from "./storeModels";
+import store from "./mainStore";
 
 export async function fetchReportsInformation(reportsIds: string[]) {
   const batchSize = 10; //Max amount of id to get in one call
 
-  const reportsConnectionRef = collection(firestore, 'reports');
+  const reportsConnectionRef = collection(firestore, "reports");
 
   const reportsWithData: Report[] = [];
 
   for (let i = 0; i < reportsIds.length; i += batchSize) {
     const batchIds = reportsIds.slice(i, i + batchSize);
-    const reportQuery = query(reportsConnectionRef, where(documentId(), 'in', batchIds));
+    const reportQuery = query(
+      reportsConnectionRef,
+      where(documentId(), "in", batchIds)
+    );
 
     const reportQuerySnapshot = await getDocs(reportQuery);
     reportQuerySnapshot.forEach((reportDoc) => {
@@ -37,13 +46,16 @@ export async function fetchReportsInformation(reportsIds: string[]) {
 export async function fetchContributionsInformation(contributionIds: string[]) {
   const batchSize = 10; //Max amount of id to get in one call
 
-  const userConnectionRef = collection(firestore, 'contributions');
+  const userConnectionRef = collection(firestore, "contributions");
 
   const contributions: Contribution[] = [];
 
   for (let i = 0; i < contributionIds.length; i += batchSize) {
     const batchIds = contributionIds.slice(i, i + batchSize);
-    const reportQuery = query(userConnectionRef, where(documentId(), 'in', batchIds));
+    const reportQuery = query(
+      userConnectionRef,
+      where(documentId(), "in", batchIds)
+    );
 
     const contributionsQuerySnapshot = await getDocs(reportQuery);
     contributionsQuerySnapshot.forEach((contributionDoc) => {
@@ -61,13 +73,16 @@ export async function fetchContributionsInformation(contributionIds: string[]) {
 export async function fetchFriendsInformation(friendsIds: string[]) {
   const batchSize = 10; //Max amount of id to get in one call
 
-  const userConnectionRef = collection(firestore, 'users');
+  const userConnectionRef = collection(firestore, "users");
 
   const friendsWithData: Friend[] = [];
 
   for (let i = 0; i < friendsIds.length; i += batchSize) {
     const batchIds = friendsIds.slice(i, i + batchSize);
-    const reportQuery = query(userConnectionRef, where(documentId(), 'in', batchIds));
+    const reportQuery = query(
+      userConnectionRef,
+      where(documentId(), "in", batchIds)
+    );
 
     const friendsQuerySnapshot = await getDocs(reportQuery);
     friendsQuerySnapshot.forEach((friendDoc) => {
@@ -84,14 +99,20 @@ export async function fetchFriendsInformation(friendsIds: string[]) {
   return friendsWithData;
 }
 
-export async function getReportWithFriendsData(mainUser: UserData, report: Report, friends: Friend[]) {
+export async function getReportWithFriendsData(
+  mainUser: UserData,
+  report: Report,
+  friends: Friend[]
+) {
   const reportData = { ...report };
 
   if (reportData && reportData.users) {
     const updatedUsersPromises = reportData.users.map(async (user) => {
       if ((!user.name || !user.lastname) && (user as ReportUserData).userId) {
         if ((user as ReportUserData).userId === mainUser.uid) {
-          const contributions = await fetchContributionsInformation((user as ReportUserData).contributionsIds);
+          const contributions = await fetchContributionsInformation(
+            (user as ReportUserData).contributionsIds
+          );
 
           return {
             ...(user as ReportUserData),
@@ -101,14 +122,18 @@ export async function getReportWithFriendsData(mainUser: UserData, report: Repor
           } as ReportUserData;
         }
 
-        const foundFriend = friends.find((friend) => friend.userId === (user as ReportUserData).userId);
+        const foundFriend = friends.find(
+          (friend) => friend.userId === (user as ReportUserData).userId
+        );
 
-        const contributions = await fetchContributionsInformation((user as ReportUserData).contributionsIds);
+        const contributions = await fetchContributionsInformation(
+          (user as ReportUserData).contributionsIds
+        );
 
         return {
           ...(user as ReportUserData),
-          name: foundFriend?.name ?? '',
-          lastname: foundFriend?.lastname ?? '',
+          name: foundFriend?.name ?? "",
+          lastname: foundFriend?.lastname ?? "",
           photoUrl: foundFriend?.photoUrl,
           contributions: contributions,
         } as ReportUserData;
@@ -128,18 +153,4 @@ export async function getReportWithFriendsData(mainUser: UserData, report: Repor
   }
 
   return report;
-}
-
-export function getTotalFromReport(report: Report): number {
-  return (
-    report.total ||
-    report.users.reduce((accUser, currUser) => {
-      return (
-        accUser +
-        currUser.contributions.reduce((acc, curr) => {
-          return acc + curr.amount;
-        }, 0)
-      );
-    }, 0)
-  );
 }

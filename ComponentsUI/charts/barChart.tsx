@@ -1,5 +1,5 @@
-import { Report, ReportUserData, UserData } from '@/app/store/storeModels';
-import { Colors, Theme } from '@/constants/Colors';
+import { Report, ReportUserData } from '@/app/store/storeModels';
+import { Colors } from '@/constants/Colors';
 import { BASE_WIDTH } from '@/constants/Values';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
@@ -10,7 +10,6 @@ import AvatarDisplay from '../shared/avatarDisplay';
 interface BarChartProps {
   report: Report;
   setSelectedUser: (userData: ReportUserData) => void;
-  selectedUser: ReportUserData | null;
 }
 
 const useStyles = () => {
@@ -26,14 +25,12 @@ const useStyles = () => {
       alignItems: 'flex-end',
     },
     barStyle: {
-      width: aspectRatio * 25,
-      borderTopEndRadius: 20,
-      borderTopStartRadius: 20,
+      width: 20,
+      backgroundColor: Colors.highlightColor,
       ...center,
     },
     avatarContainer: {
       marginTop: 10,
-      ...center,
     },
   });
 };
@@ -82,12 +79,6 @@ export default function BarChart(props: BarChartProps) {
               styles.barStyle,
               {
                 height: animatedBarHeights[index],
-              },
-              {
-                backgroundColor:
-                  !props.selectedUser || props.selectedUser.userId === userItem.userId
-                    ? Theme.greenHiglight
-                    : Theme.greenNoHighlight,
               },
             ]}
           />

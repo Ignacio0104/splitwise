@@ -1,16 +1,15 @@
 import { Contribution, Friend } from '@/app/store/storeModels';
 import { BASE_WIDTH } from '@/constants/Values';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { DateTime } from 'luxon';
 import { Avatar } from 'react-native-paper';
-import { center, EFonts } from '@/constants/styleUtils';
-import { Colors, Theme } from '@/constants/Colors';
+import { center } from '@/constants/styleUtils';
+import { Colors } from '@/constants/Colors';
 import modalStore from '@/app/store/modalStore';
 import store from '@/app/store/mainStore';
 import { upperCaseFirstLetter } from './utils';
-import AvatarDisplay from '../shared/avatarDisplay';
 
 export interface ContributionItemProps {
   contribution: Contribution;
@@ -24,61 +23,36 @@ const useStyles = () => {
       display: 'flex',
       flexDirection: 'row',
       height: aspectRatio * 50,
-      backgroundColor: Theme.grayBackground,
+      backgroundColor: Colors.darkColorPrimary,
       alignItems: 'center',
       borderRadius: 10,
-    },
-    userInfoContainer: {
-      display: 'flex',
-      flex: 2,
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingRight: 20,
-    },
-    photoAmountContainer: {
-      ...center,
-      flex: 1.2,
-      justifyContent: 'space-between',
-      marginRight: 10,
     },
     textContainer: {
       display: 'flex',
       flexDirection: 'row',
+      width: '70%',
       justifyContent: 'space-around',
       alignItems: 'center',
-      marginRight: 20,
     },
-    dateText: {
-      fontFamily: EFonts.LATO_REGULAR,
-      fontSize: aspectRatio * 11,
-      color: Theme.grayFont,
+    photoContainer: {
+      marginLeft: '15%',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    textStyle: {
+      color: 'white',
     },
     userInfoText: {
-      color: Theme.whiteFont,
-      fontFamily: EFonts.LATO_BOLD,
-      fontSize: aspectRatio * 17,
+      color: 'white',
+      fontSize: aspectRatio * 10,
     },
     textStylePrice: {
       fontSize: aspectRatio * 15,
     },
-
     amountContainer: {
+      width: '90%',
       ...center,
-    },
-    amountText: {
-      color: Theme.whiteFont,
-      fontFamily: EFonts.LATO_BOLD,
-      fontSize: aspectRatio * 18,
-    },
-    imageContainer: {
-      borderRadius: 10,
-      height: aspectRatio * 40,
-      width: aspectRatio * 40,
-    },
-    image: {
-      height: '100%',
-      width: '100%',
-      borderRadius: 10,
+      flexDirection: 'column',
     },
   });
 };
@@ -108,32 +82,29 @@ export default function ContributionItem({ contribution }: ContributionItemProps
 
   return (
     <TouchableOpacity onPress={handleModalOpen} style={style.contributionItem}>
-      <View style={style.userInfoContainer}>
-        <View style={style.textContainer}>
-          <View style={{ marginLeft: 20 }}>
-            {userData && (
-              <View>
-                <AvatarDisplay size={40} userData={userData} />
-              </View>
-            )}
-          </View>
-          <View style={{ marginLeft: 10 }}>
-            <Text style={style.userInfoText}>{userData?.name}</Text>
-            <Text style={style.dateText}>{dateParsed.setLocale('es').toFormat('d LLLL yyyy')}</Text>
-          </View>
+      <View style={style.textContainer}>
+        <View style={{ marginLeft: 10 }}>
+          <Text style={style.textStyle}>
+            {monthParsed} - {dateParsed.year}
+          </Text>
+        </View>
+
+        <View style={style.amountContainer}>
+          <Text style={[style.textStyle, style.textStylePrice, { fontWeight: 'bold' }]}>${amount}</Text>
+          <Text style={style.userInfoText}>
+            De{' '}
+            <Text style={{ fontWeight: 'bold' }}>
+              {userData?.name} {userData?.lastname}
+            </Text>
+          </Text>
         </View>
       </View>
-      <View style={style.photoAmountContainer}>
-        <View style={style.amountContainer}>
-          <Text style={style.amountText}>${amount}</Text>
-        </View>
-        <View style={style.imageContainer}>
-          <Image
-            style={style.image}
-            resizeMode="cover"
-            source={receiptPhotoUrl ? { uri: receiptPhotoUrl } : require('@/assets/images/receiptIcon.png')}
-          />
-        </View>
+      <View style={style.photoContainer}>
+        <Avatar.Image
+          size={35}
+          style={{ backgroundColor: Colors.gray }}
+          source={receiptPhotoUrl ? { uri: receiptPhotoUrl } : require('@/assets/images/receiptIcon.png')}
+        />
       </View>
     </TouchableOpacity>
   );

@@ -67,11 +67,6 @@ export const mockUserData = {
         },
       ],
       id: 'KwV07xt8yzkHZf58G5nk',
-      creator: {
-        name: 'Nacho',
-        lastname: 'Smirlian',
-        photoUrl: '',
-      },
     },
   ],
 } as UserData;
