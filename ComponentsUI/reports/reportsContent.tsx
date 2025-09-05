@@ -1,18 +1,12 @@
-import { BASE_WIDTH } from "@/constants/Values";
-import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import ReportIcon from "./reportIcon";
-import { Colors } from "@/constants/Colors";
-import { verticalCenter } from "@/constants/styleUtils";
-import { router } from "expo-router";
-import store from "@/app/store/mainStore";
+import store from '@/app/store/mainStore';
+import { getTotalFromReport } from '@/app/store/utils';
+import { Theme } from '@/constants/Colors';
+import { EFonts, verticalCenter } from '@/constants/styleUtils';
+import { BASE_WIDTH } from '@/constants/Values';
+import { router } from 'expo-router';
+import React, { useMemo } from 'react';
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import ReportIcon from './reportIcon';
 
 export function useStyles(fontSize?: number) {
   const { width } = useWindowDimensions();
@@ -23,39 +17,51 @@ export function useStyles(fontSize?: number) {
       height: aspectRatio * 70,
       marginBottom: 20,
       ...verticalCenter,
+      backgroundColor: Theme.gray800,
+      borderRadius: 20,
     },
     reportsTitle: {
-      color: "white",
-      fontSize: 15,
-      marginBottom: 20,
+      color: Theme.whiteFont,
+      fontSize: aspectRatio * 17,
+      fontFamily: EFonts.LATO_BOLD,
+      marginBottom: 12,
     },
     reportItemTitle: {
       fontSize: aspectRatio * 15,
-      color: "white",
-      fontWeight: 500,
+      color: Theme.whiteFont,
+      fontFamily: EFonts.MONTSERRAT_EXTRA_BOLD,
     },
     splitterInfo: {
-      display: "flex",
-      flexDirection: "row",
-      width: "100%",
-      paddingTop: 10,
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%',
+      paddingTop: 5,
     },
     splitterName: {
       marginRight: aspectRatio * 10,
-      color: Colors.gray,
-      fontWeight: 300,
-      fontStyle: "italic",
+      color: Theme.grayFont,
+      fontStyle: 'italic',
+      fontFamily: EFonts.MONTSERRAT_THIN_ITALIC,
     },
     splitterTitle: {
-      fontWeight: 300,
-      marginRight: 15,
-      color: Colors.gray,
+      marginRight: 12,
+      color: Theme.grayFont,
+      fontFamily: EFonts.MONTSERRAT_REGULAR,
     },
     informationContainer: {
       marginLeft: aspectRatio * 14,
-      display: "flex",
+      display: 'flex',
       paddingTop: 10,
-      height: "100%",
+      height: '100%',
+    },
+    totalContainer: {
+      marginLeft: 'auto',
+      marginRight: 15,
+    },
+    totalText: {
+      color: Theme.greenHiglight,
+      fontSize: aspectRatio * 17,
+      fontFamily: EFonts.MONTSERRAT_EXTRA_BOLD,
     },
   });
 }
@@ -67,20 +73,23 @@ export default function ReportsContent() {
 
   const redirectToReport = (reportId: string) => {
     router.replace({
-      pathname: "/reportEdit/[reportId]",
+      pathname: '/reportEdit/[reportId]',
       params: { reportId },
     });
   };
 
+  const memoizedReports = useMemo(() => {
+    return reports?.map((report) => ({
+      ...report,
+      total: getTotalFromReport(report),
+    }));
+  }, [reports]);
+
   return (
-    <View>
+    <View style={{ marginTop: 15 }}>
       <Text style={styles.reportsTitle}>Tus reportes:</Text>
-      {reports?.map((report) => (
-        <TouchableOpacity
-          key={report.id}
-          style={styles.reportContainer}
-          onPress={() => redirectToReport(report.id)}
-        >
+      {memoizedReports?.map((report) => (
+        <TouchableOpacity key={report.id} style={styles.reportContainer} onPress={() => redirectToReport(report.id)}>
           <ReportIcon type={report.type} />
           <View style={styles.informationContainer}>
             <Text style={styles.reportItemTitle}>{report.name}</Text>
@@ -92,6 +101,9 @@ export default function ReportsContent() {
                 </Text>
               ))}
             </View>
+          </View>
+          <View style={styles.totalContainer}>
+            <Text style={styles.totalText}>$ {report.total}</Text>
           </View>
         </TouchableOpacity>
       ))}
