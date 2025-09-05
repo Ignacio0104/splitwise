@@ -128,7 +128,7 @@ export default function ReportEdit() {
           />
         </Appbar.Header>
 
-        <ScrollView style={{ marginBottom: 80, marginTop: 20 }}>
+        <View>
           <View style={style.scrollViewStyle}>
             <View style={style.editViewContainer}>
               <TouchableOpacity style={style.editHeaderContainer} onPress={() => updateSelectedUser(null)}>
@@ -154,7 +154,7 @@ export default function ReportEdit() {
               </View>
             </View>
           </View>
-        </ScrollView>
+        </View>
       </SafeAreaView>
     </PaperProvider>
   );

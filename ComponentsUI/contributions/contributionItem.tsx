@@ -1,16 +1,14 @@
+import store from '@/app/store/mainStore';
+import modalStore from '@/app/store/modalStore';
 import { Contribution, Friend } from '@/app/store/storeModels';
+import { Theme } from '@/constants/Colors';
+import { center, EFonts } from '@/constants/styleUtils';
 import { BASE_WIDTH } from '@/constants/Values';
+import { DateTime } from 'luxon';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { DateTime } from 'luxon';
-import { Avatar } from 'react-native-paper';
-import { center, EFonts } from '@/constants/styleUtils';
-import { Colors, Theme } from '@/constants/Colors';
-import modalStore from '@/app/store/modalStore';
-import store from '@/app/store/mainStore';
-import { upperCaseFirstLetter } from './utils';
 import AvatarDisplay from '../shared/avatarDisplay';
+import { upperCaseFirstLetter } from './utils';
 
 export interface ContributionItemProps {
   contribution: Contribution;
@@ -27,6 +25,7 @@ const useStyles = () => {
       backgroundColor: Theme.grayBackground,
       alignItems: 'center',
       borderRadius: 10,
+      marginTop: 10,
     },
     userInfoContainer: {
       display: 'flex',

@@ -59,11 +59,11 @@ export default function RootLayout() {
       if (!user) {
         router.replace('/login');
       } else {
-        router.replace('/');
-        // router.replace({
-        //   pathname: '/reportEdit/[reportId]',
-        //   params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
-        // });
+        //router.replace('/');
+        router.replace({
+          pathname: '/reportEdit/[reportId]',
+          params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
+        });
       }
     }
   }, [user, loading, fontsLoaded]);
