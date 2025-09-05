@@ -27,7 +27,7 @@ export function useStyles(fontSize?: number) {
     container: {
       flex: 1,
       marginTop: 20,
-      marginLeft: 15,
+      paddingLeft: 15,
       backgroundColor: Theme.blueBackground,
     },
   });

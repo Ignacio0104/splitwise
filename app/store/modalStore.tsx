@@ -3,7 +3,7 @@ import { ModalInformationObject, ModalStoreModel } from './modalStoreModels';
 
 const modalStore = create<ModalStoreModel>((set) => ({
   //Default values
-  showModal: true,
+  showModal: false,
   modalInformation: {
     contributionData: {
       id: '1234',

@@ -1,14 +1,9 @@
-import { Tabs } from "expo-router";
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-} from "react-native";
-import { BASE_WIDTH } from "@/constants/Values";
-import TabButtons from "@/ComponentsUI/buttons/tabButtons";
-import { center } from "@/constants/styleUtils";
+import { Tabs } from 'expo-router';
+import { Image, Platform, StyleSheet, Text, useWindowDimensions } from 'react-native';
+import { BASE_WIDTH } from '@/constants/Values';
+import TabButtons from '@/ComponentsUI/buttons/tabButtons';
+import { center } from '@/constants/styleUtils';
+import { Theme } from '@/constants/Colors';
 
 export default function TabLayout() {
   const styles = useStyles();
@@ -23,33 +18,27 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: 'Home',
           tabBarButton: (props) => {
-            return (
-              <TabButtons bottomProps={props} buttonName="home" size={35} />
-            );
+            return <TabButtons bottomProps={props} buttonName="home" size={35} />;
           },
         }}
       />
       <Tabs.Screen
         name="creation"
         options={{
-          title: "Creation",
+          title: 'Creation',
           tabBarButton: (props) => {
-            return (
-              <TabButtons bottomProps={props} buttonName="creation" size={80} />
-            );
+            return <TabButtons bottomProps={props} buttonName="creation" size={80} />;
           },
         }}
       />
       <Tabs.Screen
         name="friends"
         options={{
-          title: "Friends",
+          title: 'Friends',
           tabBarButton: (props) => {
-            return (
-              <TabButtons bottomProps={props} buttonName="friends" size={35} />
-            );
+            return <TabButtons bottomProps={props} buttonName="friends" size={35} />;
           },
         }}
       />
@@ -64,12 +53,11 @@ export function useStyles() {
 
   return StyleSheet.create({
     tabsStyle: {
-      margin: "auto",
+      margin: 'auto',
       height: aspectRatio * 65,
       ...center,
-      width: "auto",
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-      borderRadius: 20,
+      width: '100%',
+      backgroundColor: Theme.blueBackground,
     },
   });
 }
