@@ -14,6 +14,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import { reportDropdownOption } from '../store/models';
 import Octicons from '@expo/vector-icons/Octicons';
 import ReportModal from '@/ComponentsUI/reports/reportModal';
+import SelectUserModal from './selectUserModal';
+import selectUserModalStore from '../store/selectUserModalStore';
 
 export function useStyles(fontSize?: number) {
   const { width } = useWindowDimensions();
@@ -101,11 +103,11 @@ export function useStyles(fontSize?: number) {
       ...center,
     },
     modalContainerStyle: {
-      height: '70%',
-      width: '100%',
-      marginTop: '100%',
-      borderTopLeftRadius: '5%',
-      borderTopRightRadius: '5%',
+      // height: '70%',
+      // width: '100%',
+      // marginTop: '100%',
+      // borderTopLeftRadius: '5%',
+      // borderTopRightRadius: '5%',
     },
   });
 }
@@ -137,10 +139,11 @@ export default function CreationForm() {
 
   const [selectedType, setSelectedType] = useState<string>(reportDropdownOption[0].value);
   const [fixedPrice, setFixedPrice] = useState<boolean>(false);
-  const [showUserModal, setShowUserModal] = useState<boolean>(false);
+
+  const { showModal, setShowModal } = selectUserModalStore();
 
   const openUserModal = () => {
-    setShowUserModal(true);
+    setShowModal(true);
   };
 
   const handleSubmit = (values: ReportFormModel) => {
@@ -151,12 +154,8 @@ export default function CreationForm() {
   return (
     <View>
       <Portal>
-        <Modal
-          visible={showUserModal}
-          onDismiss={() => setShowUserModal(false)}
-          contentContainerStyle={styles.modalContainerStyle}
-        >
-          <ReportModal />
+        <Modal visible={showModal} onDismiss={openUserModal} contentContainerStyle={styles.modalContainerStyle}>
+          <SelectUserModal />
         </Modal>
       </Portal>
       <Appbar.Header style={styles.appBarHeader}>
