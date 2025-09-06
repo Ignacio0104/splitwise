@@ -51,9 +51,12 @@ export function useStyles() {
       height: 60,
       color: Theme.whiteFont,
     },
+    friendsSelectionContainer: {
+      height: '60%',
+    },
     friendScroll: {
       marginTop: 20,
-      height: '60%',
+      height: '75%',
       marginLeft: 10,
     },
     friendImageTextContainer: {
@@ -78,6 +81,13 @@ export function useStyles() {
       marginRight: 10,
       width: 50,
     },
+    selectedUserContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      gap: 10,
+      marginTop: 10,
+      marginLeft: 15,
+    },
   });
 }
 
@@ -96,6 +106,7 @@ export default function SelectUserModal() {
   const [selectedBtn, setSelectedBtn] = useState<string>('friends');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredList, setFilteredList] = useState<SelectionFriend[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<SelectionFriend[]>([]);
   const { modalInformation, setModalInformation } = selectUserModalStore();
   const { friends } = store();
 
@@ -117,8 +128,13 @@ export default function SelectUserModal() {
   }, [searchQuery]);
 
   const updateUserSelection = (userId: string) => {
-    const updatedList = (modalInformation || []).map((user) => {
+    const updatedList = filteredList.map((user) => {
       if (user.userId === userId) {
+        if (user.selected) {
+          setSelectedUsers((prev) => prev.filter((user) => user.userId !== userId));
+        } else {
+          setSelectedUsers([...selectedUsers, user]);
+        }
         return {
           ...user,
           selected: !user.selected,
@@ -127,14 +143,15 @@ export default function SelectUserModal() {
       return user;
     });
 
-    setModalInformation(updatedList);
+    setFilteredList(updatedList);
   };
 
   const filterList = (query: string) => {
+    const friendsList = modalInformation?.length > 0 ? modalInformation : friends;
     if (!query) {
-      setFilteredList(friends);
+      setFilteredList(friendsList);
     } else {
-      const filteredList = friends.filter((friend) => {
+      const filteredList = friendsList.filter((friend) => {
         const queryLower = query.toLowerCase();
         const nameLowerCase = friend.name.toLowerCase();
         const lastnameLowerCase = friend.lastname.toLowerCase();
@@ -168,7 +185,7 @@ export default function SelectUserModal() {
           ]}
         />
       </View>
-      <View>
+      <View style={styles.friendsSelectionContainer}>
         {selectedBtn === 'friends' ? (
           <View style={styles.selectionContainer}>
             <Searchbar
@@ -206,6 +223,13 @@ export default function SelectUserModal() {
             />
           </View>
         )}
+      </View>
+      <View style={styles.selectedUserContainer}>
+        {selectedUsers.map((selectedUser) => (
+          <View>
+            <AvatarDisplay userData={selectedUser} size={30} />
+          </View>
+        ))}
       </View>
     </View>
   );

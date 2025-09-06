@@ -18,7 +18,7 @@ export interface SelectUserModalStoreModel {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
   setModalInformation: (value: SelectionFriend[]) => void;
-  modalInformation?: SelectionFriend[];
+  modalInformation: SelectionFriend[];
 }
 
 export interface SelectionFriend extends Friend {
