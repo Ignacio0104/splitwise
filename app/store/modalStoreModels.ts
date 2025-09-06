@@ -17,10 +17,10 @@ export interface ContributionModalObject {
 export interface SelectUserModalStoreModel {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
-  setModalInformation: (value: UserList) => void;
-  modalInformation?: UserList;
+  setModalInformation: (value: SelectionFriend[]) => void;
+  modalInformation?: SelectionFriend[];
 }
 
-export interface UserList {
-  users: Friend[];
+export interface SelectionFriend extends Friend {
+  selected?: boolean;
 }

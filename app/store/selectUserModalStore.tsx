@@ -1,14 +1,11 @@
 import { create } from 'zustand';
-import { SelectUserModalStoreModel, UserList } from './modalStoreModels';
+import { SelectionFriend, SelectUserModalStoreModel } from './modalStoreModels';
 
 const selectUserModalStore = create<SelectUserModalStoreModel>((set) => ({
   //Default values
   showModal: true,
-  modalInformation: {
-    users: [],
-  },
-
-  setModalInformation: (value: UserList) => {
+  modalInformation: [],
+  setModalInformation: (value: SelectionFriend[]) => {
     set({
       modalInformation: value,
     });
@@ -19,8 +16,6 @@ const selectUserModalStore = create<SelectUserModalStoreModel>((set) => ({
       showModal: value,
     });
   },
-
-  set,
 }));
 
 export default selectUserModalStore;

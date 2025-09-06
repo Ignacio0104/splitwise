@@ -12,8 +12,25 @@ export const mockUserData = {
       name: 'Test',
       lastname: 'User',
       userId: 'SAbeLh2HO6vG8e3Cbj8O',
+    },
+    {
+      name: 'Lucas',
+      lastname: 'Rodriguez',
+      userId: '23241535',
+      photoUrl: 'https://cloudfront-us-east-1.images.arcpublishing.com/infobae/D3YPHLTV6NDRHEHKMARK5KOCJU.JPG',
+    },
+    {
+      name: 'German',
+      lastname: 'Beder',
+      userId: '1111111',
+      photoUrl: 'https://www.nexofin.com/archivos/2023/03/german-beder-foto-nota.jpg',
+    },
+    {
+      name: 'Rober',
+      lastname: 'Galati',
+      userId: '999999',
       photoUrl:
-        'https://static.wikia.nocookie.net/swfanon/images/e/e1/Obiwankenobi_dsws.jpg/revision/latest?cb=20081204152935',
+        'https://media.losandes.com.ar/adjuntos/368/migration/resizer/v2/WLB2TBHFP5EBHNC57TIAGPUPHI.jpg?auth=57d4367f6abf3b0d2dca3b5497a310b13b418ba32314d343d41a35671a81bcb5&width=1080&height=1350',
     },
   ],
   reports: [

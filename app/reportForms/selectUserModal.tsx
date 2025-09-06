@@ -1,10 +1,15 @@
 import { Theme } from '@/constants/Colors';
 import { center, EFonts } from '@/constants/styleUtils';
 import { BASE_WIDTH } from '@/constants/Values';
-import React, { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { StyleSheet, Text, useWindowDimensions } from 'react-native';
 import { Searchbar, SegmentedButtons } from 'react-native-paper';
+import selectUserModalStore from '../store/selectUserModalStore';
+import store from '../store/mainStore';
+import AvatarDisplay from '@/ComponentsUI/shared/avatarDisplay';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { SelectionFriend } from '../store/modalStoreModels';
 
 export function useStyles() {
   const { width, height } = useWindowDimensions();
@@ -46,6 +51,33 @@ export function useStyles() {
       height: 60,
       color: Theme.whiteFont,
     },
+    friendScroll: {
+      marginTop: 20,
+      height: '60%',
+      marginLeft: 10,
+    },
+    friendImageTextContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: aspectRatio * 50,
+      marginBottom: 15,
+      gap: 10,
+    },
+    friendContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    friendText: {
+      fontFamily: EFonts.LATO_BOLD,
+      color: Theme.whiteFont,
+    },
+    checkContainer: {
+      ...center,
+      marginRight: 10,
+      width: 50,
+    },
   });
 }
 
@@ -63,6 +95,54 @@ export default function SelectUserModal() {
   const styles = useStyles();
   const [selectedBtn, setSelectedBtn] = useState<string>('friends');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredList, setFilteredList] = useState<SelectionFriend[]>([]);
+  const { modalInformation, setModalInformation } = selectUserModalStore();
+  const { friends } = store();
+
+  useEffect(() => {
+    setModalInformation(friends);
+    setFilteredList(friends);
+
+    return () => {
+      setModalInformation([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    filterList(searchQuery);
+
+    return () => {
+      setFilteredList(friends);
+    };
+  }, [searchQuery]);
+
+  const updateUserSelection = (userId: string) => {
+    const updatedList = (modalInformation || []).map((user) => {
+      if (user.userId === userId) {
+        return {
+          ...user,
+          selected: !user.selected,
+        };
+      }
+      return user;
+    });
+
+    setModalInformation(updatedList);
+  };
+
+  const filterList = (query: string) => {
+    if (!query) {
+      setFilteredList(friends);
+    } else {
+      const filteredList = friends.filter((friend) => {
+        const queryLower = query.toLowerCase();
+        const nameLowerCase = friend.name.toLowerCase();
+        const lastnameLowerCase = friend.lastname.toLowerCase();
+        return nameLowerCase.includes(queryLower) || lastnameLowerCase.includes(queryLower);
+      });
+      setFilteredList(filteredList);
+    }
+  };
 
   const setSection = (value: string) => {
     setSelectedBtn(value);
@@ -97,6 +177,25 @@ export default function SelectUserModal() {
               value={searchQuery}
               style={styles.textInput}
             />
+            <ScrollView style={styles.friendScroll}>
+              {filteredList?.map((friend) => (
+                <View key={friend.userId} style={styles.friendContainer}>
+                  <View style={styles.friendImageTextContainer}>
+                    <AvatarDisplay userData={friend} size={45} />
+                    <Text style={styles.friendText}>
+                      {friend.name} {friend.lastname}
+                    </Text>
+                  </View>
+                  <TouchableOpacity style={styles.checkContainer} onPress={() => updateUserSelection(friend.userId)}>
+                    {!friend.selected ? (
+                      <AntDesign name="checkcircleo" size={24} color={Theme.greenNoHighlight} />
+                    ) : (
+                      <AntDesign name="checkcircle" size={24} color={Theme.greenHiglight} />
+                    )}
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
           </View>
         ) : (
           <View style={styles.selectionContainer}>
