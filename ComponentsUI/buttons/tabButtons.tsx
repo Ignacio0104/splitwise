@@ -4,6 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
+import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
@@ -41,6 +42,9 @@ export default function TabButtons({ size, buttonName, bottomProps }: tabButtons
       activeOpacity={1}
       onPress={(event) => {
         if (bottomProps.onPress) {
+          if (buttonName === 'creation') {
+            router.replace('/reportForms/creationForm');
+          }
           bottomProps.onPress(event);
         }
       }}

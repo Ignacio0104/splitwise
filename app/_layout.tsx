@@ -59,11 +59,11 @@ export default function RootLayout() {
       if (!user) {
         router.replace('/login');
       } else {
-        // router.replace('/');
-        router.replace({
-          pathname: '/reportEdit/[reportId]',
-          params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
-        });
+        router.replace('/reportForms/creationForm');
+        // router.replace({
+        //   pathname: '/reportEdit/[reportId]',
+        //   params: { reportId: 'KwV07xt8yzkHZf58G5nk' },
+        // });
       }
     }
   }, [user, loading, fontsLoaded]);
@@ -80,6 +80,7 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="reportEdit" options={{ headerShown: false }} />
+        <Stack.Screen name="reportForms" options={{ headerShown: false }}></Stack.Screen>
       </Stack>
     </ThemeProvider>
   );
