@@ -10,6 +10,7 @@ import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import LoginLayout from './login/_layout';
 import useAuthStore from './login/store/AuthStore';
 import { BASE_WIDTH } from '@/constants/Values';
+import { PaperProvider } from 'react-native-paper';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -73,15 +74,17 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <StatusBar style="light" />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="reportEdit" options={{ headerShown: false }} />
-        <Stack.Screen name="reportForms" options={{ headerShown: false }}></Stack.Screen>
-      </Stack>
-    </ThemeProvider>
+    <PaperProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <StatusBar style="light" />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen name="reportEdit" options={{ headerShown: false }} />
+          <Stack.Screen name="reportForms" options={{ headerShown: false }}></Stack.Screen>
+        </Stack>
+      </ThemeProvider>
+    </PaperProvider>
   );
 }

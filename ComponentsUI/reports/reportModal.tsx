@@ -1,4 +1,4 @@
-import modalStore from '@/app/store/modalStore';
+import contributionModalStore from '@/app/store/contributionModalStore';
 import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import AvatarDisplay from '../shared/avatarDisplay';
@@ -98,7 +98,7 @@ export function useStyles(fontSize?: number) {
 
 export default function ReportModal() {
   const styles = useStyles();
-  const { modalInformation, setShowModal } = modalStore();
+  const { modalInformation, setShowModal } = contributionModalStore();
   if (!modalInformation) return;
   const { contributionData, lastname, name, photoUrl } = modalInformation;
 

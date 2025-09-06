@@ -1,15 +1,26 @@
-import { Contribution } from './storeModels';
+import { Contribution, Friend } from './storeModels';
 
-export interface ModalStoreModel {
+export interface ContributioModalStoreModel {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
-  setModalInformation: (value: ModalInformationObject) => void;
-  modalInformation?: ModalInformationObject;
+  setModalInformation: (value: ContributionModalObject) => void;
+  modalInformation?: ContributionModalObject;
 }
 
-export interface ModalInformationObject {
+export interface ContributionModalObject {
   name: string;
   lastname: string;
   photoUrl?: string;
   contributionData: Contribution;
+}
+
+export interface SelectUserModalStoreModel {
+  showModal: boolean;
+  setShowModal: (value: boolean) => void;
+  setModalInformation: (value: UserList) => void;
+  modalInformation?: UserList;
+}
+
+export interface UserList {
+  users: Friend[];
 }

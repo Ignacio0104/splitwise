@@ -5,13 +5,15 @@ import { router } from 'expo-router';
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { Appbar, Switch } from 'react-native-paper';
+import { Appbar, Modal, PaperProvider, Portal, Switch } from 'react-native-paper';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { reportFormSchema, reportInitialValues } from './schemas/report-form-schema';
 import { LoginModel } from '../login/models/loginModel';
 import { ReportFormModel } from './models/reportFormsModels';
 import RNPickerSelect from 'react-native-picker-select';
 import { reportDropdownOption } from '../store/models';
+import Octicons from '@expo/vector-icons/Octicons';
+import ReportModal from '@/ComponentsUI/reports/reportModal';
 
 export function useStyles(fontSize?: number) {
   const { width } = useWindowDimensions();
@@ -81,6 +83,30 @@ export function useStyles(fontSize?: number) {
       display: 'flex',
       gap: 10,
     },
+    selectUserButton: {
+      marginTop: 20,
+      borderColor: Theme.grayBackground,
+      borderWidth: 2,
+      borderRadius: 10,
+      borderStyle: 'dashed',
+      height: 60,
+      ...center,
+    },
+    selectUserText: {
+      color: Theme.whiteFont,
+      fontSize: aspectRatio * 14,
+      fontFamily: EFonts.MONTSERRAT_REGULAR,
+    },
+    iconTextContainer: {
+      ...center,
+    },
+    modalContainerStyle: {
+      height: '70%',
+      width: '100%',
+      marginTop: '100%',
+      borderTopLeftRadius: '5%',
+      borderTopRightRadius: '5%',
+    },
   });
 }
 
@@ -111,6 +137,11 @@ export default function CreationForm() {
 
   const [selectedType, setSelectedType] = useState<string>(reportDropdownOption[0].value);
   const [fixedPrice, setFixedPrice] = useState<boolean>(false);
+  const [showUserModal, setShowUserModal] = useState<boolean>(false);
+
+  const openUserModal = () => {
+    setShowUserModal(true);
+  };
 
   const handleSubmit = (values: ReportFormModel) => {
     console.log(values);
@@ -119,6 +150,15 @@ export default function CreationForm() {
   useEffect(() => {}, []);
   return (
     <View>
+      <Portal>
+        <Modal
+          visible={showUserModal}
+          onDismiss={() => setShowUserModal(false)}
+          contentContainerStyle={styles.modalContainerStyle}
+        >
+          <ReportModal />
+        </Modal>
+      </Portal>
       <Appbar.Header style={styles.appBarHeader}>
         <Appbar.BackAction
           style={styles.backArrowStyle}
@@ -175,6 +215,12 @@ export default function CreationForm() {
                   style={styles.expenseTextInput}
                 />
               </View>
+              <TouchableOpacity style={styles.selectUserButton} onPress={openUserModal}>
+                <View style={styles.iconTextContainer}>
+                  <Octicons name="person-add" size={24} color={Theme.whiteFont} />
+                  <Text style={styles.selectUserText}> Agregar splitters</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           )}
         </Formik>

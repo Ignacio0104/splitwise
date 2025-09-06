@@ -11,7 +11,7 @@ import { Colors, Theme } from '@/constants/Colors';
 import store from '../store/mainStore';
 import { Report, ReportUserData } from '../store/storeModels';
 import UserContribution from '@/ComponentsUI/contributions/userContribution';
-import modalStore from '../store/modalStore';
+import contributionModalStore from '../store/contributionModalStore';
 import ReportModal from '@/ComponentsUI/reports/reportModal';
 
 export function useStyles() {
@@ -97,7 +97,7 @@ export function useStyles() {
 export default function ReportEdit() {
   const { reportId } = useLocalSearchParams();
   const { getReportById } = store();
-  const { showModal, setShowModal, modalInformation } = modalStore();
+  const { showModal, setShowModal } = contributionModalStore();
   const style = useStyles();
 
   const [reportInfo, setReportInfo] = useState<Report | undefined>(undefined);
@@ -120,61 +120,59 @@ export default function ReportEdit() {
   };
 
   return (
-    <PaperProvider>
-      <SafeAreaView>
-        <Portal>
-          <Modal
-            visible={showModal}
-            onDismiss={() => setShowModal(false)}
-            contentContainerStyle={style.modalContainerStyle}
-          >
-            <ReportModal />
-          </Modal>
-        </Portal>
+    <SafeAreaView>
+      <Portal>
+        <Modal
+          visible={showModal}
+          onDismiss={() => setShowModal(false)}
+          contentContainerStyle={style.modalContainerStyle}
+        >
+          <ReportModal />
+        </Modal>
+      </Portal>
 
-        <Appbar.Header style={style.appBarHeader}>
-          <Appbar.BackAction
-            style={style.backArrowStyle}
-            color="white"
-            size={35}
-            onPress={() => {
-              router.replace('/');
-            }}
-          />
+      <Appbar.Header style={style.appBarHeader}>
+        <Appbar.BackAction
+          style={style.backArrowStyle}
+          color="white"
+          size={35}
+          onPress={() => {
+            router.replace('/');
+          }}
+        />
 
-          <TouchableOpacity style={style.plusButtonContainer}>
-            <Text style={style.plusText}> + </Text>
-          </TouchableOpacity>
-        </Appbar.Header>
+        <TouchableOpacity style={style.plusButtonContainer}>
+          <Text style={style.plusText}> + </Text>
+        </TouchableOpacity>
+      </Appbar.Header>
 
-        <View>
-          <View style={style.scrollViewStyle}>
-            <View style={style.editViewContainer}>
-              <TouchableOpacity style={style.editHeaderContainer} onPress={() => updateSelectedUser(null)}>
-                <Text style={style.headerText}>{reportInfo?.name}</Text>
-                <Text style={style.subTitleText}>
-                  Gasto creado por {''}
-                  <Text style={style.creatorName}>{getCreatorName()}</Text>
-                </Text>
-              </TouchableOpacity>
-              <View style={style.chartContainer}>
-                {reportInfo && (
-                  <BarChart report={reportInfo} setSelectedUser={updateSelectedUser} selectedUser={selectedUser} />
-                )}
-              </View>
-              <View style={style.chartDivisionContainer}>
-                <View style={style.chartDivision}></View>
-              </View>
-              <View>
-                <UserContribution
-                  allUsersData={reportInfo?.users ? [...reportInfo.users] : []}
-                  selectedUser={selectedUser}
-                />
-              </View>
+      <View>
+        <View style={style.scrollViewStyle}>
+          <View style={style.editViewContainer}>
+            <TouchableOpacity style={style.editHeaderContainer} onPress={() => updateSelectedUser(null)}>
+              <Text style={style.headerText}>{reportInfo?.name}</Text>
+              <Text style={style.subTitleText}>
+                Gasto creado por {''}
+                <Text style={style.creatorName}>{getCreatorName()}</Text>
+              </Text>
+            </TouchableOpacity>
+            <View style={style.chartContainer}>
+              {reportInfo && (
+                <BarChart report={reportInfo} setSelectedUser={updateSelectedUser} selectedUser={selectedUser} />
+              )}
+            </View>
+            <View style={style.chartDivisionContainer}>
+              <View style={style.chartDivision}></View>
+            </View>
+            <View>
+              <UserContribution
+                allUsersData={reportInfo?.users ? [...reportInfo.users] : []}
+                selectedUser={selectedUser}
+              />
             </View>
           </View>
         </View>
-      </SafeAreaView>
-    </PaperProvider>
+      </View>
+    </SafeAreaView>
   );
 }

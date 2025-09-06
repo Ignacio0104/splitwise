@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { ModalInformationObject, ModalStoreModel } from './modalStoreModels';
+import { ContributionModalObject, ContributioModalStoreModel } from './modalStoreModels';
 
-const modalStore = create<ModalStoreModel>((set) => ({
+const contributionModalStore = create<ContributioModalStoreModel>((set) => ({
   //Default values
   showModal: false,
   modalInformation: {
@@ -19,7 +19,7 @@ const modalStore = create<ModalStoreModel>((set) => ({
     photoUrl: 'https://i.pinimg.com/736x/f6/aa/24/f6aa2407d3ca6532e0304d6cd0e9291d.jpg',
   },
 
-  setModalInformation: (value: ModalInformationObject) => {
+  setModalInformation: (value: ContributionModalObject) => {
     set({
       modalInformation: value,
     });
@@ -34,4 +34,4 @@ const modalStore = create<ModalStoreModel>((set) => ({
   set,
 }));
 
-export default modalStore;
+export default contributionModalStore;

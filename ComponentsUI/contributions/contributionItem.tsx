@@ -1,5 +1,5 @@
 import store from '@/app/store/mainStore';
-import modalStore from '@/app/store/modalStore';
+import contributionModalStore from '@/app/store/contributionModalStore';
 import { Contribution, Friend } from '@/app/store/storeModels';
 import { Theme } from '@/constants/Colors';
 import { center, EFonts } from '@/constants/styleUtils';
@@ -88,7 +88,7 @@ export default function ContributionItem({ contribution }: ContributionItemProps
   const [userData, setUserData] = useState<Friend | undefined>(undefined);
   const dateParsed = typeof date === 'string' ? DateTime.fromISO(date) : date;
   const monthParsed = upperCaseFirstLetter(dateParsed.monthShort || '');
-  const { setShowModal, setModalInformation } = modalStore();
+  const { setShowModal, setModalInformation } = contributionModalStore();
   const { getUserInformation } = store();
 
   const handleModalOpen = () => {
