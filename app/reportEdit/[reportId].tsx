@@ -20,7 +20,7 @@ export function useStyles() {
   const optionsBarHeight = 100;
 
   return StyleSheet.create({
-    backArrowContainer: {
+    appBarHeader: {
       backgroundColor: 'transparent',
       display: 'flex',
       alignItems: 'center',
@@ -36,7 +36,7 @@ export function useStyles() {
       height: '100%',
     },
     editHeaderContainer: {
-      marginTop: 20,
+      marginTop: 35,
       height: aspectRatio * 100,
       marginLeft: aspectRatio * 20,
     },
@@ -75,6 +75,21 @@ export function useStyles() {
     },
     scrollViewStyle: {
       minHeight: height - optionsBarHeight,
+    },
+    plusButtonContainer: {
+      backgroundColor: Theme.greenHiglight,
+      padding: 10,
+      borderRadius: '50%',
+      marginLeft: '65%',
+      marginTop: 20,
+      height: 70,
+      width: 70,
+    },
+    plusText: {
+      margin: 'auto',
+      color: Theme.whiteFont,
+      fontSize: aspectRatio * 30,
+      fontFamily: EFonts.LATO_BOLD,
     },
   });
 }
@@ -117,7 +132,7 @@ export default function ReportEdit() {
           </Modal>
         </Portal>
 
-        <Appbar.Header style={style.backArrowContainer}>
+        <Appbar.Header style={style.appBarHeader}>
           <Appbar.BackAction
             style={style.backArrowStyle}
             color="white"
@@ -126,6 +141,10 @@ export default function ReportEdit() {
               router.replace('/');
             }}
           />
+
+          <TouchableOpacity style={style.plusButtonContainer}>
+            <Text style={style.plusText}> + </Text>
+          </TouchableOpacity>
         </Appbar.Header>
 
         <View>

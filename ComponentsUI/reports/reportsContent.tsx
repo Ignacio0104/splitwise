@@ -5,7 +5,7 @@ import { EFonts, verticalCenter } from '@/constants/styleUtils';
 import { BASE_WIDTH } from '@/constants/Values';
 import { router } from 'expo-router';
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import ReportIcon from './reportIcon';
 
 export function useStyles(fontSize?: number) {
@@ -13,6 +13,9 @@ export function useStyles(fontSize?: number) {
   const aspectRatio = width / BASE_WIDTH;
 
   return StyleSheet.create({
+    mainContainer: {
+      marginTop: 15,
+    },
     reportContainer: {
       height: aspectRatio * 70,
       marginBottom: 20,
@@ -58,6 +61,9 @@ export function useStyles(fontSize?: number) {
       marginLeft: 'auto',
       marginRight: 15,
     },
+    reportScroll: {
+      height: aspectRatio * 500,
+    },
     totalText: {
       color: Theme.greenHiglight,
       fontSize: aspectRatio * 17,
@@ -86,27 +92,35 @@ export default function ReportsContent() {
   }, [reports]);
 
   return (
-    <View style={{ marginTop: 15 }}>
+    <View style={styles.mainContainer}>
       <Text style={styles.reportsTitle}>Tus reportes:</Text>
-      {memoizedReports?.map((report) => (
-        <TouchableOpacity key={report.id} style={styles.reportContainer} onPress={() => redirectToReport(report.id)}>
-          <ReportIcon type={report.type} />
-          <View style={styles.informationContainer}>
-            <Text style={styles.reportItemTitle}>{report.name}</Text>
-            <View style={styles.splitterInfo}>
-              <Text style={styles.splitterTitle}>Splitters: </Text>
-              {report.users.map((user, index) => (
-                <Text style={styles.splitterName} key={index}>
-                  {user.name}
-                </Text>
-              ))}
-            </View>
-          </View>
-          <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>$ {report.total}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      <View style={styles.reportScroll}>
+        <ScrollView>
+          {memoizedReports?.map((report) => (
+            <TouchableOpacity
+              key={report.id}
+              style={styles.reportContainer}
+              onPress={() => redirectToReport(report.id)}
+            >
+              <ReportIcon type={report.type} />
+              <View style={styles.informationContainer}>
+                <Text style={styles.reportItemTitle}>{report.name}</Text>
+                <View style={styles.splitterInfo}>
+                  <Text style={styles.splitterTitle}>Splitters: </Text>
+                  {report.users.map((user, index) => (
+                    <Text style={styles.splitterName} key={index}>
+                      {user.name}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+              <View style={styles.totalContainer}>
+                <Text style={styles.totalText}>$ {report.total}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 }
